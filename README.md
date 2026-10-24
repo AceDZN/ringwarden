@@ -1,36 +1,34 @@
 # Ringwarden · שומרי המעגל
 
-**Prototype v1 is frozen for a gameflow redesign after owner feedback.** The controls were not intuitive and the experience was not accepted. See [the rebuild plan](docs/rebuild/PLAN.md). The commands and mechanics below describe the preserved first prototype, not a completed rebuild.
+**Version 2 rebuild: a short, playable live-defense prototype.** The owner rejected v1's confusing editor flow. The new opening starts in the garden: drag a plant's glowing ring to reach beetles, see hits immediately, and protect a second approach. No forms, numbered site tray, commit step or start-wave ceremony.
 
-A real Three.js botanical tower defense for Hebrew-speaking learners. Place and resize circular wards, spend **conduit length and floor area separately**, defend the seed-heart, inspect leaks and rebuild. Five authored waves lead to a changed northern approach with a different binding resource. No avatar or delivery loop.
+The current scope is the approved first-minute proof loop, typically 50–80 seconds with interaction/recovery. It contains two encounters, thirteen scheduled walkers and an optional immediate retry. It is not the old five-wave campaign. Human enjoyment and intuitive first use still need observation.
 
-Build phases are untimed. Battles can pause and retry freely. A typical deliberate playthrough is intended to take about 5–10 minutes including construction and the rematch; human play duration and enjoyment have not been measured.
+## Run
 
-## Run locally
-
-Node.js 22+ recommended.
+Node 22+ recommended.
 
 ```sh
 npm ci
-npm run dev       # http://localhost:5184 (strict port)
+npm run dev       # http://localhost:5184 — strict port
 npm test
 npm run build
-npm run preview   # http://localhost:4184 (strict port)
+npm run preview   # http://localhost:4184 — strict port
 ```
 
-The production output is `dist/`. Everything runs locally after loading: bundled font/models, no backend, API key, authentication, analytics or provider requests. Vite uses a relative base. If an assigned port is occupied, choose and document a free alternate; do not stop another process.
+Production output is `dist/`, with a relative Vite base. Models and Heebo font are bundled locally. No backend, API key, authentication, external model/font fetch, analytics or provider is needed at runtime. Do not stop another process if a port is occupied.
 
-## Play
+## Controls
 
-Select a numbered ground site or its matching button. Set radius or diameter, choose Thorn Crown (2 damage each second) or Resin Bloom (half speed for1.5s, no damage), then plant. Start the wave deliberately. Complete five waves with the three-hit seed-heart intact. Between waves the new garden recovers materials; retry restores the actual wave-start layout and stocks so it can be revised. Preview, cancel and rejected construction cost nothing. Building stays locked during combat and pause.
+- **Pointer/touch:** drag a gold grip, ring edge, or plant body outward to grow reach; inward returns materials. Changes apply immediately, including during battle or leak recovery. There is no confirmation button.
+- **Keyboard:** Up/Down adjusts radius; Left/Right chooses a plant; A/B chooses it directly. Space pauses/resumes. R restarts the encounter with current radii. Enter activates recovery. F toggles fullscreen; Esc exits. M toggles sound; H opens help.
+- The strategic camera is fixed; camera manipulation is not needed to play. Both approaches and the protected core remain visible.
+- On a leak, the encounter freezes. Adjust reach if desired, then **נחזור רגע** restarts this encounter with the current paid radii retained. Enemy state, cooldowns and core reset to encounter-start values. Retry evidence is separate.
+- Three kills reveal the second approach after a short breath. All ten second-encounter walkers must resolve before victory. Larger radius changes reach, never damage or cooldown.
 
-- Pointer/touch: select a site, drag the radius handle or use size fields/± controls. Right drag or two fingers orbit; wheel/pinch zoom. Camera reset is available.
-- Keyboard:1–9 selects; Up/Down changes site; Left/Right changes radius; Enter plants; Space starts/pauses; R retries; H help; Home resets camera; F fullscreen; Esc exits fullscreen/cancels preview. Standard focused form controls keep their normal keys.
-- Mute and reduced-motion support are available. Losing browser focus pauses battle.
+## Math and scope
 
-## Mathematics
-
-One ground unit is one metre. Reach is an exact horizontal disk, independent of decorative 3D meshes:
+One horizontal world unit is one metre. Reach is an analytic ground disk, not a sphere or a decorative mesh bound.
 
 ```text
 d = 2r
@@ -38,18 +36,21 @@ C = 2πr metres
 A = πr² square metres
 ```
 
-`Math.PI` is authoritative; only display values round. Numeric epsilon is1e-8 world units. Doubling radius doubles boundary stock and quadruples floor cost. Overlapping wards each pay their full disk price. Rocks affect line of sight without changing the paid area. Plant height adds no hidden cost. The slice covers Grade7 circle prerequisites applied to Grade8 context, not complete cylinder surface area. See [CURRICULUM.md](CURRICULUM.md).
+Conduit and floor stocks are independent. Live resizing recomputes exact paid costs using `Math.PI`; only display values round. Epsilon is 1e-8 world units. Doubling radius doubles conduit and quadruples floor. Overlapping wards each pay their full disk price. Initial radius 1 is already paid, leaving enough stock to grow to 2. The introductory two-plant encounter also funds both radius 2 disks; scarcity is intentionally deferred while controls are being tested.
 
-## Evidence and design
+[CURRICULUM.md](CURRICULUM.md) identifies the actual Workbook Grade 7 circle prerequisites and Grade 8 context. This prototype does not assess cylinder surface area or prove mathematical learning.
 
-- [GAME_IDENTITY.md](GAME_IDENTITY.md): loop, portfolio distinction and image-derived camera/HUD/asset breakdown.
-- [Generated gameplay target](docs/visual-targets/gameplay-v2.png): design reference, **not a captured game**. Exact prompts and provenance are in the same folder.
-- [ASSETS.md](ASSETS.md): Chrome Tripo tasks, displayed costs, local GLB provenance, license notes and processing.
-- [PLAYTEST.md](PLAYTEST.md): independent numerical and browser evidence; automated checks do not prove fun or learning gains.
-- [progress.md](progress.md): implementation checkpoints and remaining work.
+## Design and verification
 
-`render_game_to_text()` reports visible state, geometry, stocks, enemies, leaks and renderer diagnostics. `advanceTime(ms)` enters deterministic manual stepping and respects pause; `?test` starts in that mode. It does not set a win state. Optional local browser storage keeps anonymous action traces and mute preference; malformed data cannot restore or modify a game. Help can export the local trace. First rematch outcomes remain separate from retries, including abandoned attempts.
+- [Approved rebuild plan](docs/rebuild/PLAN.md), [identity](GAME_IDENTITY.md).
+- [Four generated gameplay targets and exact prompts](docs/rebuild/mockups/README.md). They are design references, not captured gameplay; actual browser comparisons belong in the rebuild review.
+- [Asset provenance](ASSETS.md): two game-specific models made through the owner's Chrome Tripo UI, displayed 45 credits each, task IDs, hashes and processing. No new model generation was used for v2.
+- [Rebuild playtest record](docs/rebuild/PLAYTEST.md). The root `PLAYTEST.md` and old `src/game.ts` describe retired v1 evidence.
 
-## Static Vercel readiness
+`npm test` includes 19 v2 rule tests plus 28 legacy/storage checks. Passing legacy tests is not current UX evidence. The v2 browser action-client and supplemental tests verify real input→radius→stock→hit→leak/retry→win flows without injecting victory. They cannot establish fun or intuitive human use.
 
-Import this public repository, choose **Vite**, use install command `npm ci`, build command `npm run build`, output directory `dist`. No environment variables are needed. `vercel.json` records the same configuration. No deployment has been requested or performed; the owner will choose the destination later.
+`render_game_to_text()` reports visible state, exact quantities, renderer/model diagnostics and projected grip positions. `advanceTime(ms)` enters deterministic manual stepping and respects pause; `?test` begins in that mode. It advances normal simulation. Optional local storage retains anonymous action traces and mute preference; malformed data cannot restore or modify a game.
+
+## Vercel
+
+Use the Vite preset, install `npm ci`, build `npm run build`, output `dist`. `vercel.json` records the same configuration. No environment variables are needed. No deployment is requested or performed; the owner will choose a destination later.

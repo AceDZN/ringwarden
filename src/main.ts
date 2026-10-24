@@ -1,79 +1,158 @@
 import './style.css';
-import {createScene} from './scene';
-import {createGame,selectSite,setRadius,setType,commitWard,sellWard,startWave,togglePause,retryWave,nextWave,startRematch,cancelPreview,currentWave,placementIssue,cost,step,advance,summary,useHelp,FIXED_DT,type Game} from './game';
-import {readLocal,writeLocal} from './storage';
-import {createSound} from './sound';
-const $=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(id) as T;
-const n=(v:number,d=2)=>Math.abs(v)<1e-7?'0':Number(v.toFixed(d)).toString();
-const ltr=(s:string)=>`<bdi dir="ltr">${s}</bdi>`;
-const formula=(v:number,unit:string)=>ltr(`${n(v/Math.PI,4)}π ${unit} ≈ ${n(v)} ${unit}`);
-let game:Game=createGame(),manualTime=new URLSearchParams(location.search).has('test'),muted=readLocal().muted;
-let scene:ReturnType<typeof createScene>|null=null;
-let helpPaused=false,siteKey='',lastPersist:unknown=null,lastUI=0;
-const sound=createSound();sound.setMuted(muted);
-$('app').innerHTML=`
-<main id="game-shell">
- <canvas id="garden" tabindex="0" aria-label="גן ההגנה בתלת ממד. בחרו אתר במספרים או בלחיצה; גרירה ימנית מסובבת מצלמה"></canvas>
- <div id="webgl-error" hidden role="alert"></div>
- <div class="brand"><strong dir="ltr">RINGWARDEN</strong><span>שומרי המעגל</span></div>
- <aside class="hud" aria-label="מצב הגן">
-  <div class="top-status"><div><span id="wave-label"></span><strong id="wave-name"></strong></div><div class="core"><span>לב הזרע</span><strong id="health"></strong><div class="health-track"><i id="health-fill"></i></div></div></div>
-  <div class="stocks"><div><span>◯ צינור · היקף</span><strong id="conduit" dir="ltr"></strong></div><div><span>▧ רצפה · שטח</span><strong id="floor" dir="ltr"></strong></div></div>
-  <section class="inspector" aria-label="הגנה נבחרת">
-   <div class="inspector-heading"><h1 id="selection-title">שתלו הגנה</h1><span id="plant-count" dir="ltr"></span></div>
-   <p id="choose-hint">בחרו אתר עגול בגן או מספר למטה.</p>
-   <div id="selected-info" hidden><p id="plant-description"></p><div id="math-cost" class="math-cost"></div>
-    <div id="build-controls">
-     <div class="plant-types" role="group" aria-label="סוג צמח"><button id="thorn" type="button">✦ כתר קוצים</button><button id="resin" type="button">❧ פריחת שרף</button></div>
-     <div class="size-fields"><label>רדיוס <span dir="ltr">r · m</span><input id="radius" type="number" min="0.5" max="3.5" step="0.25" value="1" dir="ltr"/></label><label>קוטר <span dir="ltr">d · m</span><input id="diameter" type="number" min="1" max="7" step="0.5" value="2" dir="ltr"/></label></div>
-     <div class="radius-slider"><button id="smaller" aria-label="הקטנת רדיוס">−</button><input id="radius-range" aria-label="רדיוס במטרים" type="range" min="0.5" max="3.5" step="0.25" value="1"/><button id="larger" aria-label="הגדלת רדיוס">+</button></div>
-     <p id="placement-issue" class="issue" aria-live="polite"></p>
-     <div class="build-actions"><button id="commit" class="accent">שתילה</button><button id="sell">פירוק ↶</button><button id="cancel" aria-label="ביטול תצוגה מקדימה">✕</button></div>
-    </div>
-    <p id="combat-lock" hidden>הבנייה נעולה עד תום הגל</p>
-   </div>
-  </section>
-  <div id="site-controls" aria-label="בחירת אתר"></div>
-  <div class="battle-actions"><button id="primary" class="accent">תחילת הגל ▷</button><button id="pause" hidden>השהיה Ⅱ</button><button id="retry" hidden>ניסיון חוזר ↶</button></div>
-  <p id="combat-count" class="combat-count"></p>
- </aside>
- <section id="wave-note" class="wave-note" aria-label="הוראות הגל"><span class="eyebrow" id="phase-label">זמן לתכנן</span><p id="message" aria-live="polite"></p><small id="route-rule"></small><div id="leak-report" hidden></div></section>
- <nav class="utility" aria-label="כלים"><button id="help">? עזרה</button><button id="camera">↺ מצלמה</button><button id="fullscreen">⛶ מסך מלא</button><button id="mute"></button></nav>
- <div class="camera-hint">סיבוב: גרירה ימנית / שתי אצבעות · זום: גלגלת / צביטה</div>
- <dialog id="help-dialog"><button id="close-help" class="dialog-close" aria-label="סגירת עזרה">✕</button><span class="eyebrow">איך שומרים על הגן</span><h2>שני חומרים. מעגל אחד.</h2><p>כל יחידת קרקע היא מטר. הטווח הוא עיגול אופקי; גובה הצמח אינו משנה את הטווח או את המחיר.</p><div class="help-formulas" dir="ltr">d = 2r<br/>C = 2πr m<br/>A = πr² m²</div><p>הכפלת רדיוס: פי 2 צינור ופי 4 רצפה. כל מעגל משלם את מלוא שטחו, גם בחפיפה. קו הצינור אינו קיר. סלעים חוסמים ירי אך אינם מוזילים את השטח.</p><p><strong>כתר קוצים:</strong> 2 נזק בכל שנייה, מוכן לירי בכניסה לטווח. <strong>פריחת שרף:</strong> חצי מהירות למשך 1.5 שניות, רענון עד לתוקף זה ללא הכפלה נוספת; ללא נזק. העדפה לאויב המתקדם ביותר ואז לפי סדר הכניסה.</p><p>בין גלים אפשר לפרק או לשנות ולקבל את כל החומרים בחזרה. בזמן קרב ובהשהיה הבנייה נעולה. ניסיון חוזר משחזר את תחילת הגל ופותח שוב תכנון.</p><p class="keys">מקשים: <bdi dir="ltr">1–9</bdi> אתר · חצים ימינה/שמאלה רדיוס · למעלה/למטה אתר · <bdi dir="ltr">Enter</bdi> שתילה · רווח תחילת גל/השהיה · <bdi dir="ltr">R</bdi> ניסיון חוזר · <bdi dir="ltr">Esc</bdi> ביטול · <bdi dir="ltr">F</bdi> מסך מלא · <bdi dir="ltr">Home</bdi> מצלמה</p><small>היקף ושטח: ידע מקדים מכיתה ז׳ ב־Workbook. הפרק מתרגל מעגלים; גובה וקירות גליל אינם נמדדים כאן. π מחושב בדיוק המחשב; רק התצוגה מעוגלת.</small><button id="download-trace">שמירת תיעוד הניסיון</button><button id="new-garden">גן חדש</button></dialog>
+import { createLiveScene } from './live-scene';
+import { createLiveGame, resizeWard, selectWard, stepLive, advanceLive, toggleLivePause, rewindLive, restartLive, liveSummary, liveCost, LIVE_DT } from './live-game';
+import { readLocal, writeLocal } from './storage';
+import { createSound } from './sound';
+
+const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+const num = (v: number, digits = 2) => Math.abs(v) < 1e-7 ? '0' : Number(v.toFixed(digits)).toString();
+const ltr = (s: string) => `<bdi dir="ltr">${s}</bdi>`;
+const game = createLiveGame();
+const sound = createSound();
+let muted = readLocal().muted;
+let manualTime = new URLSearchParams(location.search).has('test');
+let scene: ReturnType<typeof createLiveScene> | null = null;
+let loaded = false, helpPaused = false, keyboardUsed = false, keyboardCostUntil = 0;
+let lastEvent: unknown = null, previousKills = 0, previousLeaks = 0, previousShot = -100;
+sound.setMuted(muted);
+
+$('app').innerHTML = `
+<main id="live-game" data-mode="running">
+  <canvas id="garden" tabindex="0" aria-label="הגנו על לב הזרע. גררו את הטבעת עד לחיפושית כדי להרחיב את טווח הצמח. מקשים: חץ למעלה מגדיל, למטה מקטין, ימינה ושמאלה בוחרים צמח."></canvas>
+  <div id="webgl-error" hidden role="alert"></div>
+  <div class="wordmark" dir="ltr">Ringwarden<span dir="rtl">שומרי המעגל</span></div>
+  <div class="materials" aria-label="חומרי הגן">
+    <div class="material conduit"><span class="stock-symbol" aria-hidden="true">◎</span><div><span>צינור</span><strong id="conduit" dir="ltr"></strong></div></div>
+    <div class="material floor"><span class="stock-symbol" aria-hidden="true">▦</span><div><span>רצפה</span><strong id="floor" dir="ltr"></strong></div></div>
+  </div>
+  <div class="garden-status"><div class="heart"><span aria-hidden="true">❦</span><strong id="health" dir="ltr"></strong><small>לב הזרע</small></div><button id="pause" class="icon-button" aria-label="השהיה">Ⅱ</button></div>
+  <div id="progress" class="encounter-progress"></div>
+  <div id="drag-readout" class="drag-readout" hidden><strong id="radius-readout" dir="ltr"></strong><span id="cost-readout"></span><small id="limit-readout"></small></div>
+  <section id="prompt" class="prompt" aria-live="polite"><span id="prompt-icon" aria-hidden="true">↗</span><div><h1 id="prompt-title"></h1><p id="prompt-detail"></p></div></section>
+  <div id="recovery" class="recovery" hidden><h2 id="recovery-title"></h2><p id="recovery-detail"></p><button id="primary" class="primary"></button></div>
+  <div class="quiet-tools"><button id="mute" class="icon-button" aria-label="השתקת קול">♫</button><button id="help" class="icon-button" aria-label="עזרה">?</button></div>
+  <span id="keyboard-hint" class="keyboard-hint" hidden>↑↓ טווח · ←→ צמח · רווח השהיה</span>
+  <div id="loading" class="loading">הגן מתעורר…</div>
+  <dialog id="help-dialog"><button id="close-help" class="close" aria-label="סגירה">×</button><h2>הטבעת היא הטווח</h2><p>גררו את האור החוצה כדי להגיע לחיפושיות. גררו פנימה כדי לקבל את החומרים בחזרה. הצמחים יורים בעצמם.</p><p>הרחבה מגדילה את הטווח בלבד. קוץ גורם <bdi dir="ltr">2</bdi> נזק בכל שנייה; הרחבה אינה מאפסת את זמן הירי.</p><div class="formulas" dir="ltr">d = 2r &nbsp; C = 2πr m &nbsp; A = πr² m²</div><p>מטר בעולם הוא מטר על הקרקע. היקף צורך צינור, שטח עיגול צורך רצפה; החומרים נפרדים. הכפלת רדיוס דורשת פי <bdi dir="ltr">2</bdi> צינור ופי <bdi dir="ltr">4</bdi> רצפה.</p><p>נחזור רגע מתחיל שוב את המפגש הנוכחי עם לב מלא ועם הטווחים שכבר בחרתם. אין צורך לשתול או לאשר שוב.</p><p class="keys">מקלדת: ↑↓ טווח · ←→ בחירת צמח · <bdi dir="ltr">A/B</bdi> צמח · רווח השהיה · <bdi dir="ltr">R</bdi> התחלת המפגש מחדש · <bdi dir="ltr">F</bdi> מסך מלא · <bdi dir="ltr">M</bdi> קול.</p><small>זהו מבחן משחק קצר של שתי גישות. ידע מקדים: היקף ושטח עיגול, כיתה ז׳ ב־Workbook. הנוסחאות מתארות קרקע ומסגרת, לא גליל. רק התצוגה מעוגלת.</small><button id="restart" class="secondary">מהתחלה</button></dialog>
 </main>`;
-function unlock(){sound.unlock();}
-function act(fn:()=>unknown){unlock();fn();refresh();}
-function choose(id:string){selectSite(game,id);refresh();}
-function setR(r:number){if(!setRadius(game,r)&&game.mode==='build'&&game.preview){game.message='הזינו רדיוס חיובי במטרים.';$<HTMLInputElement>('radius').value=n(game.preview.r);$<HTMLInputElement>('diameter').value=n(game.preview.r*2);}refresh();}
-function persist(){writeLocal(muted,game.events);lastPersist=game.events.at(-1);}
-function refresh(){const w=currentWave(game),build=game.mode==='build';$('game-shell').dataset.mode=game.mode;$('wave-label').innerHTML=game.rematch?'משחק חוזר':`גל ${ltr(`${game.wave+1} / 5`)}`;$('wave-name').textContent=w.name;$('health').innerHTML=`♥ ${ltr(`${Math.max(0,game.coreHealth)} / 3`)}`;$('health-fill').style.width=`${Math.max(0,game.coreHealth)/3*100}%`;$('conduit').textContent=`${n(game.stocks.conduit)} m`;$('floor').textContent=`${n(game.stocks.floor)} m²`;$('conduit').title=`${n(game.stocks.conduit/Math.PI,4)}π m`;$('floor').title=`${n(game.stocks.floor/Math.PI,4)}π m²`;
- const ward=game.wards.find(a=>a.siteId===game.selectedSite),preview=build?game.preview:null,selected=preview??ward;
- $('choose-hint').textContent=build?'בחרו אתר עגול בגן או מספר למטה.':'בחרו צמח קיים כדי לבדוק טווח ועלות.';$('choose-hint').hidden=!!selected;$('selected-info').hidden=!selected;$('build-controls').hidden=!build;$('combat-lock').hidden=build;$('selection-title').textContent=selected?`${selected.type==='thorn'?'כתר קוצים':'פריחת שרף'} · אתר ${game.sites.findIndex(s=>s.id===game.selectedSite)+1}`:build?'שתלו הגנה':'הגנות הגן';$('plant-count').textContent=`${game.wards.length}/${w.maxPlants}`;
- if(selected){const c=cost(selected.r);$('plant-description').textContent=selected.type==='thorn'?'פגיעה יחידה · 2 נזק / שנייה':'האטה בלבד · 50% מהירות';$('math-cost').innerHTML=`<div>${ltr(`r = ${n(selected.r)} m`)}<small>${ltr(`d = ${n(2*selected.r)} m`)}</small></div><div><span>◯</span> ${ltr(`C = ${n(2*selected.r,4)}π m`)}<small>${ltr(`≈ ${n(c.conduit)} m`)}</small></div><div><span>▧</span> ${ltr(`A = ${n(selected.r**2,4)}π m²`)}<small>${ltr(`≈ ${n(c.floor)} m²`)}</small></div>`;
- for(const [id,val]of [['radius',selected.r],['diameter',selected.r*2],['radius-range',selected.r]] as const){const el=$<HTMLInputElement>(id);if(document.activeElement!==el)el.value=n(val);}
- $('thorn').setAttribute('aria-pressed',String(selected.type==='thorn'));$('resin').setAttribute('aria-pressed',String(selected.type==='resin'));const issue=placementIssue(game);$('placement-issue').textContent=build?issue:'';$<HTMLButtonElement>('commit').disabled=!!issue;$('commit').textContent=ward?'עדכון הצמח':'שתילה';$<HTMLButtonElement>('sell').disabled=!ward;
- }
- const key=game.rematch+':'+game.wave;if(key!==siteKey){siteKey=key;$('site-controls').innerHTML=game.sites.map((s,i)=>`<button type="button" data-site="${s.id}" aria-label="אתר ${i+1}" title="אתר ${i+1} · רדיוס מרבי ${s.maxRadius} מטר">${i+1}</button>`).join('');$('site-controls').querySelectorAll<HTMLButtonElement>('button').forEach(b=>b.onclick=()=>act(()=>{choose(b.dataset.site!);$('garden').focus();}));}
- $('site-controls').querySelectorAll<HTMLButtonElement>('button').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.site===game.selectedSite));b.classList.toggle('planted',game.wards.some(a=>a.siteId===b.dataset.site));});
- const primary=$<HTMLButtonElement>('primary');primary.hidden=['combat','paused'].includes(game.mode);primary.textContent=game.mode==='lost'?'תכנון מחדש ↶':game.mode==='won'?(game.rematch?'גן חדש ↶':'אתגר הגישה הצפונית ▷'):game.mode==='cleared'?'לגל הבא ▷':'תחילת הגל ▷';$('pause').hidden=!['combat','paused'].includes(game.mode);$('pause').textContent=game.mode==='paused'?'המשך ▷':'השהיה Ⅱ';$('retry').hidden=!game.waveStart||game.mode==='build';$('message').textContent=game.message;$('phase-label').textContent=({build:'זמן לתכנן · ללא הגבלת זמן',combat:'הגן נלחם',paused:'המשחק מושהה',cleared:'הגל הושלם',lost:'פריצה לגן',won:'הגן שרד'} as const)[game.mode];$('route-rule').textContent=w.rule;$('combat-count').textContent=build?`כל רדיוס משנה טווח בלבד · עד ${w.maxPlants} צמחים`:`הוכרעו ${game.killed} · פרצו ${game.leaked} · נותרו ${w.spawns.length-game.spawnIndex+game.enemies.length}`;$('leak-report').hidden=!game.leaks.length;$('leak-report').textContent=game.leaks.length?`פריצות: ${game.leaks.map(e=>`חיפושית ${e.id} — ${n(e.hp)} חיים נשארו`).join(' · ')}`:'';$('mute').textContent=muted?'♩ קול כבוי':'♫ קול פעיל';$('mute').setAttribute('aria-pressed',String(muted));if(lastPersist!==game.events.at(-1))persist();
+
+function persist() { writeLocal(muted, game.events); lastEvent = game.events.at(-1); }
+function unlock() { sound.unlock(); }
+function focusGarden() { $('garden').focus({ preventScroll: true }); }
+function resize(id: string, r: number) { resizeWard(game, id, r); refresh(); }
+function choose(id: string) { selectWard(game, id); refresh(); }
+function drag(id: string | null) { game.draggingId = id; if (id) { unlock(); game.selectedId = id; } refresh(); }
+function primaryAction() {
+  unlock();
+  if (game.mode === 'leak' || game.mode === 'lost') rewindLive(game);
+  else if (game.mode === 'paused') toggleLivePause(game);
+  else if (game.mode === 'won') restartLive(game);
+  refresh(); focusGarden();
 }
-$('radius').addEventListener('change',e=>act(()=>setR(Number((e.target as HTMLInputElement).value))));$('diameter').addEventListener('change',e=>act(()=>setR(Number((e.target as HTMLInputElement).value)/2)));$('radius-range').addEventListener('input',e=>setR(Number((e.target as HTMLInputElement).value)));
-$('smaller').onclick=()=>act(()=>setR((game.preview?.r??1)-.25));$('larger').onclick=()=>act(()=>setR((game.preview?.r??1)+.25));$('thorn').onclick=()=>act(()=>setType(game,'thorn'));$('resin').onclick=()=>act(()=>setType(game,'resin'));$('commit').onclick=()=>act(()=>{if(commitWard(game))sound.play('plant');$('garden').focus();});$('sell').onclick=()=>act(()=>sellWard(game));$('cancel').onclick=()=>act(()=>cancelPreview(game));
-function primary(){if(game.mode==='build')startWave(game);else if(game.mode==='cleared')nextWave(game);else if(game.mode==='lost')retryWave(game);else if(game.mode==='won'){if(game.rematch){game=createGame();siteKey='';}else startRematch(game);}refresh();}
-$('primary').onclick=()=>act(()=>{primary();$('garden').focus();});$('pause').onclick=()=>act(()=>{togglePause(game);$('garden').focus();});$('retry').onclick=()=>act(()=>{retryWave(game);$('garden').focus();});$('camera').onclick=()=>scene?.resetCamera();
-async function fullscreen(){if(document.fullscreenElement)await document.exitFullscreen();else await $('game-shell').requestFullscreen();}
-$('fullscreen').onclick=()=>void fullscreen();$('mute').onclick=()=>act(()=>{muted=!muted;sound.setMuted(muted);persist();});
-const help=$<HTMLDialogElement>('help-dialog');function openHelp(){useHelp(game);helpPaused=game.mode==='combat';if(helpPaused)togglePause(game);help.showModal();refresh();}function closeHelp(){help.close();if(helpPaused&&game.mode==='paused')togglePause(game);helpPaused=false;refresh();}
-$('help').onclick=()=>act(openHelp);$('close-help').onclick=closeHelp;help.addEventListener('cancel',e=>{e.preventDefault();closeHelp();});$('new-garden').onclick=()=>{game=createGame();siteKey='';helpPaused=false;closeHelp();};$('download-trace').onclick=()=>{const blob=new Blob([JSON.stringify({version:1,events:game.events,firstRematch:game.firstRematch},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ringwarden-attempt.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
-window.addEventListener('keydown',e=>{if(help.open)return;if((e.target as HTMLElement).matches('input,select,textarea')&&e.code!=='Escape')return;if((e.target as HTMLElement).matches('button')&&['Enter','Space'].includes(e.code))return;if(e.repeat&&['Space','KeyR','Enter'].includes(e.code))return;let handled=true;unlock();if(/^Digit[1-9]$/.test(e.code)){const s=game.sites[Number(e.code.slice(-1))-1];if(s)choose(s.id);}else if(e.code==='ArrowRight')setR((game.preview?.r??1)+.25);else if(e.code==='ArrowLeft')setR((game.preview?.r??1)-.25);else if(e.code==='ArrowUp'||e.code==='ArrowDown'){const i=game.sites.findIndex(s=>s.id===game.selectedSite);choose(game.sites[i<0?0:(i+(e.code==='ArrowUp'?1:-1)+game.sites.length)%game.sites.length].id);}else if(e.code==='Enter'){if(game.mode==='build'){if(commitWard(game))sound.play('plant');}}else if(e.code==='Escape')cancelPreview(game);else if(e.code==='Space'){if(game.mode==='combat'||game.mode==='paused')togglePause(game);else primary();}else if(e.code==='KeyR')retryWave(game);else if(e.code==='KeyF')void fullscreen();else if(e.code==='KeyH')openHelp();else if(e.code==='Home')scene?.resetCamera();else handled=false;if(handled){e.preventDefault();refresh();}});
-function blurPause(){if(game.mode==='combat'){togglePause(game);game.message='הקרב הושהה כשהחלון איבד מיקוד. לחצו המשך.';refresh();}}
-window.addEventListener('blur',blurPause);document.addEventListener('visibilitychange',()=>{if(document.hidden)blurPause();});window.addEventListener('resize',()=>scene?.resize());document.addEventListener('fullscreenchange',()=>scene?.resize());
-try{scene=createScene($<HTMLCanvasElement>('garden'),id=>choose(id),r=>setR(r));}catch(error){$('webgl-error').hidden=false;$('webgl-error').textContent='תלת הממד לא נטען. הפעילו האצת חומרה בדפדפן ורעננו את הדף. '+String(error);}
-let last=performance.now(),accumulator=0,lastKills=0,lastLeaks=0;
-function draw(dt:number){if(game.killed>lastKills)sound.play('shot');if(game.leaked>lastLeaks)sound.play('leak');lastKills=game.killed;lastLeaks=game.leaked;scene?.render({...game,placementValid:!placementIssue(game)},dt);}
-function frame(now:number){const elapsed=Math.min(.1,(now-last)/1000);last=now;if(!manualTime){accumulator+=elapsed;while(accumulator>=FIXED_DT){step(game,FIXED_DT);accumulator-=FIXED_DT;}}draw(elapsed);if(now-lastUI>100){refresh();lastUI=now;}requestAnimationFrame(frame);}
-window.render_game_to_text=()=>JSON.stringify({...summary(game),renderer:scene?.getDiagnostics(),muted,manualTime});
-window.advanceTime=(ms:number)=>{manualTime=true;advance(game,ms);refresh();draw(ms/1000);};
-refresh();requestAnimationFrame(frame);
-declare global{interface Window{render_game_to_text:()=>string;advanceTime:(ms:number)=>void;}}
+function refresh() {
+  const ui = $('live-game'); ui.dataset.mode = game.mode;
+  $('conduit').textContent = `${num(game.stocks.conduit)} m`;
+  $('floor').textContent = `${num(game.stocks.floor)} m²`;
+  $('conduit').title = `${num(game.stocks.conduit / Math.PI, 4)}π m`;
+  $('floor').title = `${num(game.stocks.floor / Math.PI, 4)}π m²`;
+  $('health').textContent = `${game.coreHealth} / 3`;
+  $('progress').innerHTML = `${game.stage === 0 ? 'שביל ראשון' : 'שני שבילים'} <span>${ltr(`${game.killed} / ${game.stage === 0 ? 3 : 10}`)}</span>`;
+  const recovering = ['leak', 'lost', 'won', 'paused'].includes(game.mode);
+  $('recovery').hidden = !recovering; $('prompt').hidden = recovering;
+  const pause = $<HTMLButtonElement>('pause'); pause.disabled = ['leak', 'lost', 'won', 'interlude'].includes(game.mode);
+  pause.textContent = game.mode === 'paused' ? '▷' : 'Ⅱ'; pause.setAttribute('aria-label', game.mode === 'paused' ? 'המשך' : 'השהיה');
+  if (game.mode === 'leak' || game.mode === 'lost') {
+    $('recovery-title').textContent = 'חיפושית הגיעה ללב';
+    $('recovery-detail').textContent = 'אפשר להרחיב עכשיו. הטווח שבחרתם יישמר בניסיון הבא.';
+    $('primary').textContent = '↶ נחזור רגע';
+  } else if (game.mode === 'paused') {
+    $('recovery-title').textContent = 'הגן מחכה לכם';
+    $('recovery-detail').textContent = game.pauseReason || 'המשחק מושהה. אפשר לשנות טווחים גם עכשיו.';
+    $('primary').textContent = '▷ ממשיכים';
+  } else if (game.mode === 'won') {
+    $('recovery-title').textContent = 'הלב בטוח!';
+    $('recovery-detail').textContent = 'כל 13 החיפושיות נעצרו. הגן פורח מחדש.';
+    $('primary').textContent = '↶ עוד סיבוב';
+  }
+  let title: string, detail: string, icon: string;
+  if (game.mode === 'interlude') { title = 'יפה! עוד שביל נפתח'; detail = 'צמח נוסף מצטרף להגנה'; icon = '✦'; }
+  else if (!game.hasGrown) { title = game.stage === 0 ? 'גררו את הטבעת עד לחיפושית' : 'הרחיבו גם בשביל השני'; detail = game.stage === 0 ? 'הטבעת צריכה להגיע לחיפושיות' : 'יש מספיק חומרים לשני הצמחים'; icon = '↗'; }
+  else if (game.stage === 1 && game.wards.some(w => w.r < 1.24)) { title = 'גם הצמח השני צריך להגיע'; detail = 'גררו את האור שעל הטבעת השנייה'; icon = '↗'; }
+  else { title = game.stage === 0 ? 'הקוצים מגינים על הלב' : 'שני השבילים בידיים שלכם'; detail = 'אפשר לשנות טווח גם כשהחיפושיות מתקדמות'; icon = '✦'; }
+  $('prompt-title').textContent = title; $('prompt-detail').textContent = detail; $('prompt-icon').textContent = icon;
+  $('mute').textContent = muted ? '♩' : '♫'; $('mute').setAttribute('aria-label', muted ? 'הפעלת קול' : 'השתקת קול'); $('mute').setAttribute('aria-pressed', String(muted));
+  $('keyboard-hint').hidden = !keyboardUsed;
+  const showCost = !!game.draggingId || (performance.now() < keyboardCostUntil && ['running', 'paused', 'leak'].includes(game.mode));
+  const ward = game.wards.find(w => w.id === (game.draggingId ?? game.selectedId));
+  $('drag-readout').hidden = !showCost || !ward;
+  if (showCost && ward) {
+    const c = liveCost(ward.r);
+    $('radius-readout').textContent = `r = ${num(ward.r)} m`;
+    $('cost-readout').innerHTML = `${ltr(`C = ${num(2 * ward.r, 3)}π m`)} · ${ltr(`A = ${num(ward.r * ward.r, 3)}π m²`)}`;
+    $('cost-readout').title = `C ≈ ${num(c.conduit)} m; A ≈ ${num(c.floor)} m²`;
+    $('limit-readout').textContent = game.limitReason;
+    const grip = scene?.getDiagnostics().grips?.find((v: { id: string }) => v.id === ward.id);
+    if (grip) { const width = Math.min(310, innerWidth - 24); $('drag-readout').style.left = `${Math.max(12, Math.min(innerWidth - width - 12, grip.x - width / 2))}px`; $('drag-readout').style.top = `${Math.max(100, grip.y - 108)}px`; }
+  }
+  if (lastEvent !== game.events.at(-1)) persist();
+}
+$('primary').onclick = primaryAction;
+$('pause').onclick = () => { unlock(); toggleLivePause(game); refresh(); focusGarden(); };
+$('mute').onclick = () => { unlock(); muted = !muted; sound.setMuted(muted); persist(); refresh(); };
+const help = $<HTMLDialogElement>('help-dialog');
+function openHelp() { game.helpUses++; game.events.push({ event: 'help', wave: game.stage + 1, rematch: false, time: game.time }); helpPaused = game.mode === 'running'; if (helpPaused) toggleLivePause(game); help.showModal(); refresh(); }
+function closeHelp() { help.close(); if (helpPaused && game.mode === 'paused') toggleLivePause(game); helpPaused = false; refresh(); focusGarden(); }
+$('help').onclick = openHelp; $('close-help').onclick = closeHelp;
+help.addEventListener('cancel', e => { e.preventDefault(); closeHelp(); });
+$('restart').onclick = () => { restartLive(game); helpPaused = false; closeHelp(); };
+async function fullscreen() { if (document.fullscreenElement) await document.exitFullscreen(); else await $('live-game').requestFullscreen(); }
+window.addEventListener('keydown', e => {
+  if (help.open || (e.target as HTMLElement).matches('input,textarea,select')) return;
+  if ((e.target as HTMLElement).matches('button') && ['Enter', 'Space'].includes(e.code)) return;
+  let handled = true; unlock();
+  const index = game.wards.findIndex(w => w.id === game.selectedId);
+  const ward = game.wards[index < 0 ? 0 : index];
+  if (e.code === 'ArrowUp') resize(ward.id, ward.r + .25);
+  else if (e.code === 'ArrowDown') resize(ward.id, ward.r - .25);
+  else if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') choose(game.wards[(index + (e.code === 'ArrowRight' ? 1 : -1) + game.wards.length) % game.wards.length].id);
+  else if (e.code === 'KeyA' || e.code === 'Digit1') choose('A');
+  else if (e.code === 'KeyB' || e.code === 'Digit2') choose('B');
+  else if (e.code === 'Space' && !e.repeat) { if (game.mode === 'running' || game.mode === 'paused') toggleLivePause(game); else primaryAction(); }
+  else if (e.code === 'KeyR' && !e.repeat) rewindLive(game);
+  else if (e.code === 'Enter' && !e.repeat) primaryAction();
+  else if (e.code === 'KeyF' && !e.repeat) void fullscreen();
+  else if (e.code === 'KeyM' && !e.repeat) { muted = !muted; sound.setMuted(muted); persist(); }
+  else if (e.code === 'KeyH' && !e.repeat) openHelp();
+  else handled = false;
+  if (handled) { e.preventDefault(); keyboardUsed = true; if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyA','KeyB','Digit1','Digit2'].includes(e.code)) keyboardCostUntil = performance.now() + 2500; refresh(); }
+});
+function blurPause() { if (game.mode === 'running') { toggleLivePause(game, 'הקרב הושהה כשהחלון איבד מיקוד.'); refresh(); } }
+window.addEventListener('blur', blurPause);
+document.addEventListener('visibilitychange', () => { if (document.hidden) blurPause(); });
+window.addEventListener('resize', () => { scene?.resize(); refresh(); });
+document.addEventListener('fullscreenchange', () => { scene?.resize(); refresh(); });
+try { scene = createLiveScene($<HTMLCanvasElement>('garden'), choose, resize, drag); }
+catch (error) { $('webgl-error').hidden = false; $('webgl-error').textContent = `תלת הממד לא נטען. הפעילו האצת חומרה ורעננו. ${String(error)}`; $('loading').hidden = true; }
+let last = performance.now(), accumulator = 0, lastUI = 0;
+function draw(dt: number) {
+  const diagnostics = scene?.getDiagnostics();
+  loaded = !!diagnostics && Object.values(diagnostics.assets ?? {}).every(v => v !== 'loading');
+  $('loading').hidden = loaded || !scene;
+  if (game.totalKilled > previousKills) sound.play('plant');
+  if (game.leaked > previousLeaks) sound.play('leak');
+  const shotTime = Math.max(...game.wards.map(w => w.lastShotTime));
+  if (shotTime > previousShot) sound.play('shot');
+  previousKills = game.totalKilled; previousLeaks = game.leaked; previousShot = shotTime;
+  scene?.render(game, dt);
+}
+function frame(now: number) {
+  const elapsed = Math.min(.1, (now - last) / 1000); last = now;
+  if (!manualTime && loaded) { accumulator += elapsed; while (accumulator >= LIVE_DT) { stepLive(game, LIVE_DT); accumulator -= LIVE_DT; } }
+  draw(elapsed);
+  if (now - lastUI > 80) { refresh(); lastUI = now; }
+  requestAnimationFrame(frame);
+}
+window.render_game_to_text = () => JSON.stringify({ ...liveSummary(game), renderer: scene?.getDiagnostics(), muted, loaded, manualTime });
+window.advanceTime = (ms: number) => { manualTime = true; advanceLive(game, ms); draw(ms / 1000); refresh(); };
+refresh(); requestAnimationFrame(frame);
+declare global { interface Window { render_game_to_text: () => string; advanceTime: (ms: number) => void; } }

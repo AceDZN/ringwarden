@@ -35,6 +35,7 @@ function assertAccount(g:LiveGame) {
 // Isolated budget fixtures test the general math helper. They are not authored
 // playable scarcity challenges or successful combat/win witnesses.
 function resourceFixture(g:LiveGame,conduit:number,floor:number) {
+  for(const ward of g.wards)resizeWard(g,ward.id,1);
   g.budget={conduit,floor};
   const spent=g.wards.reduce((s,w)=>({conduit:s.conduit+liveCost(w.r).conduit,floor:s.floor+liveCost(w.r).floor}),{conduit:0,floor:0});
   g.stocks={conduit:conduit-spent.conduit,floor:floor-spent.floor};
@@ -163,17 +164,26 @@ test('opening clears only after all scheduled walkers resolve, then breathes and
   advanceLive(g,2000);assert.equal(g.stage,0);assert.equal(g.mode,'interlude');
   advanceLive(g,250);assert.equal(g.stage,1);assert.equal(g.mode,'running');
   assert.ok(g.totalTime>=time+2.2-LIVE_EPS);
-  assert.equal(g.wards.length,2);assert.equal(g.wards[0].r,1);assert.equal(g.wards[1].r,1);
+  assert.equal(g.wards.length,2);assert.equal(g.wards[0].r,2);assert.equal(g.wards[1].r,1);
   assert.ok(g.enemies.length>=1);assertAccount(g);
+});
+
+test('opening progress survives the reveal: retain the original plant position and chosen radius',()=>{
+  const g=createLiveGame();resizeWard(g,'A',1.25);
+  until(g,()=>g.mode!=='running');assert.equal(g.mode,'interlude');
+  const ward={x:g.wards[0].x,z:g.wards[0].z,r:g.wards[0].r};
+  assert.equal(beginNext(g),true);
+  assert.deepEqual({x:g.wards[0].x,z:g.wards[0].z,r:g.wards[0].r},ward);
+  assert.equal(g.wards[1].r,1);assertAccount(g);
 });
 
 test('second approach has announced alternating paths and enough material for both r2 wards',()=>{
   const g=secondEncounter();
-  assert.deepEqual(g.wards.map(w=>[w.x,w.z]),[[0,-1.65],[0,1.65]]);
+  assert.deepEqual(g.wards.map(w=>[w.x,w.z]),[[0,0],[0,2.2]]);
   assert.equal(g.paths.length,2);assert.equal(LIVE_STAGES[1].count,10);
   resizeWard(g,'A',2);resizeWard(g,'B',2);
   close(g.stocks.conduit,0);close(g.stocks.floor,0);assertAccount(g);
-  // Actual circles overlap by 0.7 m, but each pays its complete disk area.
+  // Actual circles overlap by 1.8 m, but each pays its complete disk area.
   assert.ok(Math.abs(g.wards[0].z-g.wards[1].z)<g.wards[0].r+g.wards[1].r);
   advanceLive(g,5500);
   assert.deepEqual(g.enemies.map(e=>e.route),[0,1,0]);

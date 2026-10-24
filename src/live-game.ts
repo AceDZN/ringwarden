@@ -22,7 +22,7 @@ export type LiveGame = {
 const point = (x: number, z: number): Point => ({ x, z });
 export const LIVE_STAGES = [
   { count: 3, gap: 5, hp: 8, speed: .7, paths: [[point(-3.8, 0), point(5, 0)]], wards: [{ id: 'A', x: 0, z: 0 }], budget: { conduit: 4 * Math.PI, floor: 4 * Math.PI } },
-  { count: 10, gap: 2.7, hp: 8, speed: .8, paths: [[point(-4.5, -1.65), point(2.8, -1.65), point(5, 0)], [point(-4.5, 1.65), point(2.8, 1.65), point(5, 0)]], wards: [{ id: 'A', x: 0, z: -1.65 }, { id: 'B', x: 0, z: 1.65 }], budget: { conduit: 8 * Math.PI, floor: 8 * Math.PI } },
+  { count: 10, gap: 2.7, hp: 8, speed: .8, paths: [[point(-4.5, 0), point(2.8, 0), point(5, 0)], [point(-4.5, 2.2), point(2.8, 2.2), point(5, 0)]], wards: [{ id: 'A', x: 0, z: 0 }, { id: 'B', x: 0, z: 2.2 }], budget: { conduit: 8 * Math.PI, floor: 8 * Math.PI } },
 ] as const;
 export const liveCost = (r: number) => ({ conduit: 2 * Math.PI * r, floor: Math.PI * r * r });
 function event(g: LiveGame, name: string, data: Record<string, unknown> = {}) {
@@ -95,7 +95,10 @@ export function toggleLivePause(g: LiveGame, reason = '') {
 }
 export function beginNext(g: LiveGame) {
   if (g.mode !== 'interlude' || g.stage !== 0) return false;
-  g.stage = 1; setupStage(g); event(g, 'second-approach'); return true;
+  const retainedRadius = g.wards.find(w => w.id === 'A')?.r ?? 1;
+  g.stage = 1; setupStage(g);
+  g.wards[0].r = retainedRadius; account(g); g.hasGrown = retainedRadius > 1.04;
+  event(g, 'second-approach', { retainedRadius }); return true;
 }
 /** Rewind = restart this encounter, keeping current paid radii. No setup is repeated. */
 export function rewindLive(g: LiveGame) {

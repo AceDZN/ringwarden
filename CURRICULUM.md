@@ -1,5 +1,7 @@
 # Curriculum scope and mathematical model
 
+Current v2scope: a short live-resize introduction with two approaches. Its budgets make both starter defenses affordable up to radius2; it demonstrates C/A consequences but does not yet test independently binding material scarcity. The old five-wave decision structure below is retained as v1historical context, not current content.
+
 Ringwarden uses circle circumference and disk area as two independent construction costs. These are **Grade 7 prerequisites**, applied in a strategic 3D garden. The current slice does not assess complete cylinder surface area or volume.
 
 The crew read the frozen Workbook snapshots supplied with the 24 October 2026 handoff. Runtime play needs no Workbook connection. No current live-page content is inferred from the snapshots.

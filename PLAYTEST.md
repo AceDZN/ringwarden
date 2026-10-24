@@ -1,3 +1,5 @@
+**Historical v1 record. Current rebuilt prototype verification is in [docs/rebuild/PLAYTEST.md](docs/rebuild/PLAYTEST.md).**
+
 # Independent QA record
 
 Status: **28 independent simulator/storage tests pass**. Browser and visual-target verification remain pending while the UI is integrated. No browser success or enjoyment claim is inferred from simulator results.

@@ -4,7 +4,7 @@
 
 ## First-minute goal
 
-The player sees a beetle, a living defense and the seed-heart immediately. Within five seconds, one obvious, affordable drag grows a ward until the plant can hit. Opening state is radius1 with2πm conduit and3πm² floor remaining from4π/4π stocks, so radius2 is affordable. No form, site index, separate commit or start-wave ceremony. The player should be able to explain the cause of the hit and a leak without reading help.
+The player sees a beetle, a living defense and the seed-heart immediately. Within five seconds, one obvious, affordable drag grows a ward until the plant can hit. Opening state is radius 1 with 2π m conduit and 3π m² floor remaining from 4π/4π stocks, so radius 2 is affordable. No form, site index, separate commit or start-wave ceremony. The player should be able to explain the cause of the hit and a leak without reading help.
 
 Approved direction: lively active plant defense. The owner said “ok. proceed” after reviewing the proposed loop and generated gameplay mockups. Implementation is now underway for the short first-minute proof loop.
 

@@ -1,23 +1,29 @@
-# Ringwarden identity
+# Ringwarden v2 — live plant defense
 
-Core verbs: select a site, grow a disk, allocate two stocks, commit, defend, inspect leaks, recover materials, revise.
+The owner rejected v1's editor-like controls and approved the image-first rebuild on 24 October 2026. The current delivery is the short two-approach proof loop from `docs/rebuild/PLAN.md`, not the retired five-wave campaign.
 
-In the first sixty seconds the player selects the central foundation, changes its radius while the exact circumference and disk-area costs update independently, commits a living thorn plant and starts three beetles. Instant authoritative hits reduce visible HP; decorative bolts follow. A small single ward leaks; retry restores the actual wave-start layout so the player can rebuild without a penalty.
+## Core actions and first minute
 
-The decision is where to spend scarce boundary length and floor area. Larger reach changes time on target, never damage. A garden changes through placed disks, consumed stocks, resolved enemies, core health and announced routes. Between waves materials recover fully; during battle and pause construction stays locked. The seed-heart must survive all five waves. A changed northern approach then asks for a fresh plan and records the first unaided attempt separately.
+Grow or shrink a living ground disk while beetles attack. See reach become a hit. Defend a second approach. Inspect a leak and retry the same encounter with the current plan retained.
 
-The camera is high and oblique with orbit, zoom and reset. There is no controllable avatar, object retrieval or delivery. Cream stone terraces, fern-green floors, ochre plant crowns and ink-blue beetles make a botanical fortification. Exact circles and path markers remain legible under decorative models. Wards grow into place, plants turn toward targets, luminous shots and recoiling beetles communicate combat. Restrained synthesized plucks mark planting, firing and leaks; mute is available.
+The garden starts running: one already-planted radius 1 Thorn Crown, one beetle and a large gold grip on its green range boundary. Drag the grip, any rim edge, or the plant body; keyboard arrows offer the same adjustment. There is no placement form, site numbering, commit step or start-wave button. The first useful growth is affordable.
 
-Visual thesis: an illustrated garden stronghold cut from warm limestone, with living geometric wards and readable ink-blue invaders.
-Content plan: garden as the full-canvas workspace; wave/core/material strip; a compact selected-site inspector; end-of-wave leak report and next action.
-Interaction thesis: circles visibly grow; aiming plants and beetles react to combat; the camera glides while selection preserves its pose.
+An authoritative thorn hit deals 2 HP and removes one of four HP pips. Radius changes reach only. Resizing retains cooldown and last-shot time. After three beetles resolve, a short bloom and a 2.2-second breath reveal two approaches automatically. Both defenses can be grown without shrinking a donor. The prototype does not yet claim to assess independent scarcity decisions.
 
-Portfolio check: this is circular coverage allocation under an untimed build / timed defense rhythm. It does not use Scale Shift's first-person clearance, Percent Pulse's arena aiming, Hypotenuse Rush's momentum traversal, or Equal & Opposite's operation-card duel. The lead, visual contributor and independent QA review this identity against the actual implementation before expanding content.
+The first leak freezes immediately, marks the route and damages the seed-heart once. The player can fix the ring while frozen and use one conspicuous recovery action. Recovery restarts this encounter at its start with the current paid radii retained; it restores core/enemies/spawns/HP/cooldowns and preserves separate retry/leak evidence. It is not a ten-second time rewind. Victory requires both approaches fully resolved with the core intact.
 
-## Image-first target breakdown
+## Image and interaction direction
 
-Canonical generated reference: `docs/visual-targets/gameplay-v2.png` (built-in image_gen; exact original/correction prompts and SHA manifest beside it). This is a design target, not game evidence. The crew inspected the actual image before deriving the final scene/HUD work. It shows a high oblique limestone garden, a fully supported radius-2 plaza, ochre branching plant, dark beetles, green boundary/faint floor fill and a compact dark HUD in the upper right.
+Visual thesis: a close, warm limestone garden where low ochre plants protect a distinctly tall luminous seed-heart against ink-blue beetles.
 
-Assets derived from that target: one sculptural Thorn Crown, one ink-blue beetle (two existing paid Chrome Tripo submissions retained); procedural exact disks, stone foundations, paths, seed-heart, arches, water, ivy/flowers and cypress framing. Models decorate the calibrated tactical plane. During combat the selected ward retains radius/cost information, while construction controls disappear and pause/retry remain available. Touch uses a separate garden viewport and bottom construction dock; it retains the same actions.
+Content plan: the living garden fills the view; two small, distinctly shaped material gauges and core health sit above it; one short next-action cue sits below. Radius/costs appear at the active gesture. Pause/mute/help stay secondary. No permanent inspector.
 
-Authoritative differences: core is three hits, not the illustration's 20/20. Three walkers spawn six seconds apart, so the successful opening does not contain three simultaneous living beetles. The actual comparison capture uses first walker6/8HP with two pending at5.05s. No attack is fired outside analytic range to imitate an illustrative beam.
+Motion thesis: a radial grip pulse suggests growth; actual hits cause a recoil and disappearing HP pip; kills bloom into leaves and a leak leaves a blue ghost route. Reduced-motion users retain necessary enemy/shot motion with optional bob/recoil/camera flourish removed.
+
+Use a fixed oblique camera and exact procedural ground disks. Keep the full allowed radius, grip, entrance and core visible. Decorative scene detail frames the action; it never defines range, cost or collision. Four generated targets and exact prompts are saved under `docs/rebuild/mockups/`; they are references, not actual captures. Their documented illustration errors never override analytic geometry.
+
+## Portfolio distinction and limits
+
+Ringwarden remains botanical tower defense through circular coverage control. There is no controllable avatar, delivery, arena dodging, first-person scaling, grappling or algebra-card hand. Live radius editing is a meaningful interaction change from v1, but automation cannot prove it is enjoyable. Whether static layouts or continual reach lending are engaging remains a human playtest question. Test this short loop before expanding another campaign.
+
+Math remains `d=2r`, `C=2πr m`, `A=πr² m²`, computed with `Math.PI`; one ground unit is one metre, epsilon 1e-8. Stocks never substitute, and each overlapping full disk pays its complete cost. These are Grade 7 circle prerequisites applied in a Grade 8 context, not cylinder surface area.

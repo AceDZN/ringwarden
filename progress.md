@@ -43,3 +43,8 @@ btw,create it as a new public repo on my github (AceDZN). I think that I'll depl
 ## Approved rebuild implementation
 - Owner said “ok. proceed” to active plant defense. Resumed the real crew: lead owns new live simulation/UI; visual owns a new fixed-camera live scene; independent QA owns new simulator/browser tests and the rebuilt playtest record. No new Tripo generations.
 - Implementing only the approved short two-approach proof loop before another content expansion. First action and second-front growth remain affordable. Live resizing retains firing cooldown; first leak freezes immediately. One rewind restarts the current encounter and retains the player's paid radii, restoring core/enemies/cooldowns without repeated setup.
+
+## Live scene integration and rule checkpoint
+- All 47 tests pass: 19 v2 live-defense rules plus 28 legacy/storage checks. The opening plant now keeps both its position and chosen radius when the second approach appears; the new plant has its own affordable growth.
+- First real production action-client runs reached radius 2 and the first 6/8 HP hit, but exposed foliage batching errors, low ring contrast and a cropped core. These runs are recorded as failures, not visual acceptance. Source fixes are being frozen before the production pointer/touch/recovery run.
+- Kept the approved short proof-loop scope. Fresh human enjoyment and first-use observation remain required before extending the campaign.
