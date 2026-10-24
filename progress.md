@@ -25,3 +25,8 @@ btw,create it as a new public repo on my github (AceDZN). I think that I'll depl
 - Inspected canonical generated image v2; documented the derived camera/HUD/assets and the authoritative differences (core3, deterministic walker spacing). No reference bitmap is used as runtime art.
 - First real Chrome play: selected site, set radius2, committed with both stocks0, started real autonomous wave. Screenshot exposed a sparse/far scene; visual contributor is fixing framing, visible foundations and botanical richness.
 - First production build passed (Three.js chunk676kB,179kB gzip before final scene/models). Final build will be repeated after final assets. Initial action-client runs were invalidated by live Vite reloads; no pass claimed. QA reserved for a stable production preview.
+
+## Owner feedback — full flow redesign
+- Owner found the current controls unintuitive, flow confusing and experience boring. Difficulty was interaction discovery rather than math. Stopped current implementation/production QA and instructed both real crew members to preserve work with no further edits.
+- v1's passing rule tests are retained as numerical evidence only; they do not establish usable or enjoyable gameplay. Final assets/close-camera scene were not production-verified before the stop.
+- New plan in docs/rebuild/PLAN.md: a live garden, one direct ring-growth gesture, immediate hit feedback, active redistribution and quick leak rewind. Pending direction preference; imagegen gameplay targets must precede rebuild code.

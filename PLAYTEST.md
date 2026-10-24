@@ -36,6 +36,10 @@ The final plan costs `8π m` conduit and `4.25π m²` floor. It remains affordab
 
 Separate tests cover atomic budget rejection for each material, full refund/repeated resize, overlap cost, range boundary and sight lines, deterministic stepping, initially ready cooldown, half-speed capped resin with expiry, no-damage failure, pause construction lock, once-only resolution, retry snapshots and retained evidence, invalid foundations and radii, and malformed/unavailable local storage.
 
+## Runtime asset inspection
+
+Both bundled models independently parse as valid binary glTF 2.0 with one mesh/material each, three embedded images each, and zero external resources. Thorn Crown: 4,124,988 bytes, 85,631 indexed triangles. Ink beetle: 3,902,636 bytes, 89,396 indexed triangles. These are file/geometry observations, not a frame-rate measurement. Runtime loading, orientation, gameplay scale and rendering remain part of the browser check below.
+
 ## Required verification
 
 The QA role owns `tests/**`, this record, and `CURRICULUM.md`. The integration lead owns changes to production rules and Git. Domain checks should operate through public construction/combat functions, not insert kills or a winning state.
@@ -49,3 +53,17 @@ The QA role owns `tests/**`, this record, and `CURRICULUM.md`. The integration l
 - Run the installed web-game action client and inspect its gameplay screenshots, JSON state, and console errors. Also inspect the production preview in the user's Chrome game tab; the visual contributor alone owns the Tripo tab.
 
 Automated checks cannot prove fun or learning gains. Final observed results and remaining limitations will replace this pending status after implementation is available.
+
+## Reproduction commands
+
+Run from the repository root after the production preview has been built and started on port 4184:
+
+```sh
+npm test
+node /Users/acedzn/.codex/skills/develop-web-game/scripts/web_game_playwright_client.js --url http://localhost:4184 --actions-file tests/actions/intro-combat.json --iterations 1 --pause-ms 100 --screenshot-dir output/qa-production-client
+node tests/browser-qa.mjs http://localhost:4184
+```
+
+The installed client performs keyboard selection, four distinct radius increments, planting, starting combat, and time stepping. The supplemental script covers DOM inputs that the client cannot express, full-page screenshots, ground pointer selection, pause/retry, diameter/radius agreement, camera/resize/fullscreen, five waves and rematch, touch input, asset loading, console errors and a labeled headless frame observation. It uses the public time hook to advance combat, never a win-state setter. Outputs go to ignored `output/` folders; representative actual captures can be copied into the final delivery artifacts by the integration lead.
+
+An early development-client run was interrupted by Vite reloading its page while source files changed. That run is not counted as passing. Production verification waits for a frozen build, avoiding a misleading rerun of a changing development page.

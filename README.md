@@ -1,5 +1,7 @@
 # Ringwarden · שומרי המעגל
 
+**Prototype v1 is frozen for a gameflow redesign after owner feedback.** The controls were not intuitive and the experience was not accepted. See [the rebuild plan](docs/rebuild/PLAN.md). The commands and mechanics below describe the preserved first prototype, not a completed rebuild.
+
 A real Three.js botanical tower defense for Hebrew-speaking learners. Place and resize circular wards, spend **conduit length and floor area separately**, defend the seed-heart, inspect leaks and rebuild. Five authored waves lead to a changed northern approach with a different binding resource. No avatar or delivery loop.
 
 Build phases are untimed. Battles can pause and retry freely. A typical deliberate playthrough is intended to take about 5–10 minutes including construction and the rematch; human play duration and enjoyment have not been measured.
