@@ -19,3 +19,9 @@ btw,create it as a new public repo on my github (AceDZN). I think that I'll depl
 - 25 public-action domain tests pass: exact π costs, linear/quadratic growth, atomic independent stocks, zero-cost preview/cancel/reject, full recovery, overlaps, horizontal range, sight lines, ready/cooldown/slow behavior, deterministic spawn routes, pause/retry, all five success/failure witnesses and changed-layout transfer.
 - First-rematch record now begins at first combat start; abandoning it remains an abandoned first attempt even if later retries win.
 - Added optional local-only event/settings storage with malformed-data guards, no saved-game restore or analytics. Added generated Web Audio feedback and bundled Heebo under its OFL license.
+
+## Interactive and visual checkpoint
+- Implemented Hebrew HUD with isolated LTR formulas, separate stocks, radius/diameter editing, pointer/keyboard/touch construction, pause/retry, help, mute, fullscreen and camera controls. A dedicated mobile garden viewport keeps the bottom dock out of its center.
+- Inspected canonical generated image v2; documented the derived camera/HUD/assets and the authoritative differences (core3, deterministic walker spacing). No reference bitmap is used as runtime art.
+- First real Chrome play: selected site, set radius2, committed with both stocks0, started real autonomous wave. Screenshot exposed a sparse/far scene; visual contributor is fixing framing, visible foundations and botanical richness.
+- First production build passed (Three.js chunk676kB,179kB gzip before final scene/models). Final build will be repeated after final assets. Initial action-client runs were invalidated by live Vite reloads; no pass claimed. QA reserved for a stable production preview.

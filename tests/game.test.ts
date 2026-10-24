@@ -14,7 +14,7 @@ export const WINNING_PLANS: readonly Plan[] = [
   [['A', 2], ['B', 2]],
   [['A', 1], ['B', 1], ['C', 1], ['D', 1]],
   [['A', 1.5], ['B', 1.5], ['C', 1.5], ['D', 1.5]],
-  [['A', .75], ['B', .75], ['C', 1.38], ['D', 1.38]],
+  [['A', .75], ['B', .75], ['C', 1.25], ['D', 1.25]],
 ];
 export const REMATCH_PLAN: Plan = [['F', 1], ['G', 1], ['H', 1], ['I', 1]];
 const close = (a: number, b: number, tolerance = EPS) => assert.ok(Math.abs(a - b) < tolerance, `${a} != ${b}`);
@@ -250,12 +250,19 @@ const FAILING_PLANS: readonly Plan[] = [
   [['A', 1]], // Too little time on target.
   [['A', 2]], // The southern approach has no defender.
   [['E', 2]], // One full-floor disk cannot deliver seven hits.
-  [['E', 3]], // A large disk is blocked by the central rock.
+  [['E', 3]], // The rock blocks the northern part of a large disk.
   [['A', 2], ['B', 2]], // Central defenses ignore the southern flank.
 ];
 for (let index = 0; index < 5; index++) {
   test(`wave ${index + 1}: meaningful legal counterexample leaks and fails`, () => {
-    const g = reachWave(index); place(g, FAILING_PLANS[index]); fight(g);
+    const g = reachWave(index); place(g, FAILING_PLANS[index]);
+    if (index === 3) {
+      const ward = g.wards[0];
+      assert.equal(inRange(ward, {x:0,z:-1.5}), true, 'north is within the priced disk');
+      assert.equal(hasLineOfSight(ward, {x:0,z:-1.5}, g.occluders), false, 'rock blocks north');
+      assert.equal(hasLineOfSight(ward, {x:0,z:1.5}, g.occluders), true, 'south remains visible');
+    }
+    fight(g);
     assert.equal(g.mode, 'lost'); assert.ok(g.leaked >= 3); assert.ok(g.coreHealth <= 0);
     assert.equal(g.leaks.length, g.leaked);
     assert.ok(g.leaks.every(e => e.hp > 0));

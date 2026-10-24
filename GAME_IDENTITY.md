@@ -13,3 +13,11 @@ Content plan: garden as the full-canvas workspace; wave/core/material strip; a c
 Interaction thesis: circles visibly grow; aiming plants and beetles react to combat; the camera glides while selection preserves its pose.
 
 Portfolio check: this is circular coverage allocation under an untimed build / timed defense rhythm. It does not use Scale Shift's first-person clearance, Percent Pulse's arena aiming, Hypotenuse Rush's momentum traversal, or Equal & Opposite's operation-card duel. The lead, visual contributor and independent QA review this identity against the actual implementation before expanding content.
+
+## Image-first target breakdown
+
+Canonical generated reference: `docs/visual-targets/gameplay-v2.png` (built-in image_gen; exact original/correction prompts and SHA manifest beside it). This is a design target, not game evidence. The crew inspected the actual image before deriving the final scene/HUD work. It shows a high oblique limestone garden, a fully supported radius-2 plaza, ochre branching plant, dark beetles, green boundary/faint floor fill and a compact dark HUD in the upper right.
+
+Assets derived from that target: one sculptural Thorn Crown, one ink-blue beetle (two existing paid Chrome Tripo submissions retained); procedural exact disks, stone foundations, paths, seed-heart, arches, water, ivy/flowers and cypress framing. Models decorate the calibrated tactical plane. During combat the selected ward retains radius/cost information, while construction controls disappear and pause/retry remain available. Touch uses a separate garden viewport and bottom construction dock; it retains the same actions.
+
+Authoritative differences: core is three hits, not the illustration's 20/20. Three walkers spawn six seconds apart, so the successful opening does not contain three simultaneous living beetles. The actual comparison capture uses first walker6/8HP with two pending at5.05s. No attack is fired outside analytic range to imitate an illustrative beam.
