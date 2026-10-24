@@ -39,3 +39,7 @@ btw,create it as a new public repo on my github (AceDZN). I think that I'll depl
 - Independent replan reviews saved in docs/rebuild/QA_REVIEW.md and VISUAL_BREAKDOWN.md. They found empty-stock invitations and hidden prerequisites. Revised plan defers scarcity until the gesture is understood.
 - Added actionable pre-growth opening frame00 with sufficient stocks; revised frame02 to an affordable second-front encounter, removing the ambiguous transfer bridge. Four selected generated frames plus exact prompts/provenance are saved. Remaining generated illustration errors are explicitly documented.
 - No rebuild source changes yet. The unresolved design preference is active defense/range control versus directly controlled attacks; it changes the main activity and is being clarified before another implementation pass.
+
+## Approved rebuild implementation
+- Owner said “ok. proceed” to active plant defense. Resumed the real crew: lead owns new live simulation/UI; visual owns a new fixed-camera live scene; independent QA owns new simulator/browser tests and the rebuilt playtest record. No new Tripo generations.
+- Implementing only the approved short two-approach proof loop before another content expansion. First action and second-front growth remain affordable. Live resizing retains firing cooldown; first leak freezes immediately. One rewind restarts the current encounter and retains the player's paid radii, restoring core/enemies/cooldowns without repeated setup.
