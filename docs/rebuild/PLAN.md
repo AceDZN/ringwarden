@@ -1,6 +1,6 @@
 # Ringwarden rebuild — flow before features
 
-24 October2026. The owner rejected the first prototype's gameflow and controls: confusing, unintuitive, boring, and difficult because of interaction rather than mathematics. The old five-wave simulator checks do not contradict that experience. Implementation and production QA of v1 stopped immediately. This is a new working design, not an accepted or tested fun claim.
+24 October 2026. The owner rejected the first prototype's gameflow and controls: confusing, unintuitive, boring, and difficult because of interaction rather than mathematics. The old five-wave simulator checks do not contradict that experience. Implementation and production QA of v1 stopped immediately. This is a new working design, not an accepted or tested fun claim.
 
 ## First-minute goal
 
