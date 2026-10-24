@@ -30,3 +30,12 @@ btw,create it as a new public repo on my github (AceDZN). I think that I'll depl
 - Owner found the current controls unintuitive, flow confusing and experience boring. Difficulty was interaction discovery rather than math. Stopped current implementation/production QA and instructed both real crew members to preserve work with no further edits.
 - v1's passing rule tests are retained as numerical evidence only; they do not establish usable or enjoyable gameplay. Final assets/close-camera scene were not production-verified before the stop.
 - New plan in docs/rebuild/PLAN.md: a live garden, one direct ring-growth gesture, immediate hit feedback, active redistribution and quick leak rewind. Pending direction preference; imagegen gameplay targets must precede rebuild code.
+
+## Rebuild mockup checkpoint
+- Generated three new gameplay-state references with built-in image_gen BEFORE any rebuild code: first direct ring-growth hit, two-plant live redistribution, leak/one-action rewind.
+- Saved exact prompts, selected PNGs, correction prompt, SHA manifest and explicit illustrative-math limitations under docs/rebuild/mockups/.
+- Corrected first image's outside-range hit and misleading old radius ring. Remaining generated pip/second-image targeting inconsistencies are documented and must not enter actual rules.
+- Both crew members are now doing bounded planning-only reviews of the images/first-minute loop. No source/assets/tests changes authorized during that review. Old prototype stays frozen; no new Tripo work or production success claim.
+- Independent replan reviews saved in docs/rebuild/QA_REVIEW.md and VISUAL_BREAKDOWN.md. They found empty-stock invitations and hidden prerequisites. Revised plan defers scarcity until the gesture is understood.
+- Added actionable pre-growth opening frame00 with sufficient stocks; revised frame02 to an affordable second-front encounter, removing the ambiguous transfer bridge. Four selected generated frames plus exact prompts/provenance are saved. Remaining generated illustration errors are explicitly documented.
+- No rebuild source changes yet. The unresolved design preference is active defense/range control versus directly controlled attacks; it changes the main activity and is being clarified before another implementation pass.

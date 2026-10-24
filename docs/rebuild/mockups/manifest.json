@@ -1,0 +1,28 @@
+{
+  "generator": "built-in image_gen",
+  "date": "2026-10-24",
+  "status": "proposed_generated_design_targets",
+  "not_actual_gameplay_captures": true,
+  "selected_files": [
+    {
+      "file": "00-actionable-opening.png",
+      "sha256": "d9d146daf7c7b17af660deac815eb7da43b35867cd50d5d789b0b7ff6cf5100b"
+    },
+    {
+      "file": "01-first-gesture.png",
+      "sha256": "177971a5a9b2c715003a81a253ebfe945293f4a986c9a32bd97e047b9eddd15c"
+    },
+    {
+      "file": "02-live-defense.png",
+      "sha256": "12379840d5271b4d73f264f44ed03b86421824ed467f5ab1f26b6962a103b8f5"
+    },
+    {
+      "file": "03-leak-recovery.png",
+      "sha256": "e76e72e4b692f66a7b4e9c2e5c3990133f18fcb1c53b6ef3e6b1f676a157fc07"
+    }
+  ],
+  "superseded_drafts": [
+    "01-first-gesture-draft.png",
+    "02-live-defense-draft.png"
+  ]
+}

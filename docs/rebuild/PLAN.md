@@ -4,7 +4,7 @@
 
 ## First-minute goal
 
-The player sees a beetle, a living defense and the seed-heart immediately. Within five seconds, one obvious drag grows a ward until the plant can hit. No form, site index, separate commit or start-wave ceremony. The player should be able to explain the cause of the hit and a leak without reading help.
+The player sees a beetle, a living defense and the seed-heart immediately. Within five seconds, one obvious, affordable drag grows a ward until the plant can hit. Opening state is radius1 with2πm conduit and3πm² floor remaining from4π/4π stocks, so radius2 is affordable. No form, site index, separate commit or start-wave ceremony. The player should be able to explain the cause of the hit and a leak without reading help.
 
 Working direction: lively tower defense. A user preference question is pending; this direction is the default while mockups are reviewed.
 
@@ -13,7 +13,7 @@ Working direction: lively tower defense. A user preference question is pending; 
 - Start with an existing plant and a beetle approaching it. One large, inviting rim grip is the first affordance. Show one short contextual cue.
 - Drag the glowing boundary to grow or shrink its true horizontal disk. Radius and both stocks update together. No separate radius/diameter fields, slider, confirm button or numbered site tray in the main flow.
 - Growth is live during combat; shrinking returns exact materials. Preserve cooldowns when resizing so oscillating a ring cannot create free shots. Stocks remain independent, using `Math.PI` and exact C/A transactions.
-- Plants attack automatically. The player's activity is redistributing reach as the pressure shifts, rather than waiting through a locked editor/battle cycle. Introduce a second plant only after the first visible success.
+- Plants attack automatically. The player's activity is redistributing reach as the pressure shifts, rather than waiting through a locked editor/battle cycle. Introduce a second plant only after the first visible success. The second encounter grants enough stock to grow both defenses; no donor-shrink prerequisite is hidden in the opening.
 - Keep the initial camera fixed and correctly framed. Orbit is optional later, not a prerequisite or a row of first-screen controls. Touch uses the same drag. Provide clear keyboard equivalents after the basic loop works.
 - A leak leaves a ghost route that points to the coverage gap. Offer one immediate rewind; do not make the player repeat setup. Keep help/retry evidence separate.
 
@@ -24,7 +24,7 @@ Working direction: lively tower defense. A user preference question is pending; 
 |0–5|Already in the garden. One beetle approaches one plant. The rim grip and a short cue indicate the only new action.|
 |5–15|Player grows reach. A thorn visibly hits the beetle; HP pips disappear, the beetle recoils. Costs stay near the active gesture.|
 |15–25|Plant blooms after the kill. A new approach becomes visible, and a second defense becomes relevant.|
-|25–40|Redistribute reach between the two approaches. Boundary length and floor area drain at different rates; the threat explains why it matters.|
+|25–40|Grow a second defense against the new approach, with enough materials for both. Boundary length and floor area drain at different rates; scarcity/redistribution comes only after the player knows the gesture.|
 |40–50|An optional mistaken allocation produces a visible leak, a ghost path and one rewind action.|
 |50–60|Revise the same encounter and see the changed outcome. Then take a breath before the next short skirmish.|
 
@@ -41,3 +41,7 @@ Generate separate gameplay references for the active first gesture, the two-ward
 ## Acceptance before content expansion
 
 A fresh human player should discover the first useful action without instruction from the developer, see a hit within seconds, understand a leak, and recover through one obvious action. Watch where they hesitate. Ask whether they want another skirmish. Automation can verify rules, inputs and recovery; it cannot establish that these goals have been met or that the game is fun.
+
+## Crew review correction
+
+Independent visual and QA review found that the first proposed frames invited growth with empty conduit and obscured a donor-shrink prerequisite. The actionable opening is now a separate pre-growth frame with nonzero sufficient stocks and a straight radial arrow. The first two-plant encounter also has sufficient material. Direct particle bridges suggesting a separate transfer gesture are removed. Tight resource allocation is deferred beyond the first-minute control test. See QA_REVIEW.md and VISUAL_BREAKDOWN.md for the independent critiques; their findings are not implementation acceptance.
