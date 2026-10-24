@@ -1,0 +1,228 @@
+{
+  "coordinateSystem": "x right, z depth, y up; one ground unit = one metre; analytic horizontal disks",
+  "version": 2,
+  "mode": "won",
+  "stage": 1,
+  "encounter": 2,
+  "time": 30.41666666666622,
+  "totalTime": 63.899999999997426,
+  "coreHealth": 3,
+  "core": {
+    "x": 5,
+    "z": 0
+  },
+  "budget": {
+    "conduit": 25.132741228718345,
+    "floor": 25.132741228718345
+  },
+  "stocks": {
+    "conduit": 0,
+    "floor": 0
+  },
+  "wards": [
+    {
+      "id": "A",
+      "x": 0,
+      "z": 0,
+      "r": 2,
+      "maxRadius": 2,
+      "cooldown": 0,
+      "lastShotTime": 27.716666666666374,
+      "d": 4,
+      "cost": {
+        "conduit": 12.566370614359172,
+        "floor": 12.566370614359172
+      },
+      "maxAffordableRadius": 2,
+      "damage": 2,
+      "cooldownSeconds": 1
+    },
+    {
+      "id": "B",
+      "x": 0,
+      "z": 2.2,
+      "r": 2,
+      "maxRadius": 2,
+      "cooldown": 1,
+      "lastShotTime": 30.41666666666622,
+      "d": 4,
+      "cost": {
+        "conduit": 12.566370614359172,
+        "floor": 12.566370614359172
+      },
+      "maxAffordableRadius": 2,
+      "damage": 2,
+      "cooldownSeconds": 1
+    }
+  ],
+  "enemies": [],
+  "paths": [
+    [
+      {
+        "x": -4.5,
+        "z": 0
+      },
+      {
+        "x": 2.8,
+        "z": 0
+      },
+      {
+        "x": 5,
+        "z": 0
+      }
+    ],
+    [
+      {
+        "x": -4.5,
+        "z": 2.2
+      },
+      {
+        "x": 2.8,
+        "z": 2.2
+      },
+      {
+        "x": 5,
+        "z": 0
+      }
+    ]
+  ],
+  "shots": [],
+  "leaks": [],
+  "killed": 10,
+  "totalKilled": 13,
+  "pending": 0,
+  "scheduled": 10,
+  "selectedId": "A",
+  "draggingId": null,
+  "limitReason": "",
+  "retries": 1,
+  "helpUses": 1,
+  "firstActionTime": 0,
+  "rewindContract": "Restart current encounter at t=0 with stage-start core, reset enemies/spawns/HP/cooldowns, retain current paid radii and recompute both stocks; preserve retry evidence.",
+  "renderer": {
+    "assets": {
+      "thorn": "loaded",
+      "beetle": "loaded"
+    },
+    "modelBounds": {
+      "thorn": {
+        "original": {
+          "min": [
+            -0.3526001423597336,
+            0.0010986328125,
+            -0.3552551567554474
+          ],
+          "max": [
+            0.35708625614643097,
+            0.980377197265625,
+            0.3554687798023224
+          ]
+        },
+        "height": 1.08,
+        "grounded": true,
+        "triangles": 83669
+      },
+      "beetle": {
+        "original": {
+          "min": [
+            -0.4893189072608948,
+            0.00091552734375,
+            -0.4175415486097336
+          ],
+          "max": [
+            0.4889526963233948,
+            0.3735504150390625,
+            0.41763313114643097
+          ]
+        },
+        "height": 0.34,
+        "grounded": true,
+        "triangles": 88482
+      }
+    },
+    "fixedCamera": true,
+    "camera": {
+      "position": [
+        -2.5,
+        11.6,
+        15.5
+      ],
+      "target": [
+        0.55,
+        0.45,
+        0.9
+      ],
+      "projection": "orthographic",
+      "viewWidth": 13,
+      "viewHeight": 7.308612440191388
+    },
+    "grips": [
+      {
+        "id": "A",
+        "x": 883.9373703832707,
+        "y": 318.13555382472504,
+        "center": {
+          "x": 743.0858639745421,
+          "y": 453.0533907862242
+        },
+        "worldCenter": {
+          "x": 0,
+          "z": 0
+        },
+        "worldRadius": 2,
+        "maxRadius": 2,
+        "radius": 195.04350691058082,
+        "hitRadius": 22,
+        "world": {
+          "x": 1.4142135623730951,
+          "z": -1.414213562373095
+        },
+        "dragTarget": {
+          "left": 861.9373703832707,
+          "top": 296.13555382472504,
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "id": "B",
+        "x": 1058.064323649627,
+        "y": 617.4228066950737,
+        "center": {
+          "x": 800.9470103996764,
+          "y": 618.8916636237446
+        },
+        "worldCenter": {
+          "x": 0,
+          "z": 2.2
+        },
+        "worldRadius": 2,
+        "maxRadius": 2,
+        "radius": 257.12150885048527,
+        "hitRadius": 22,
+        "world": {
+          "x": 1.9447282889608353,
+          "z": 2.66693884194342
+        },
+        "dragTarget": {
+          "left": 1036.064323649627,
+          "top": 595.4228066950737,
+          "width": 44,
+          "height": 44
+        }
+      }
+    ],
+    "canvas": {
+      "width": 1672,
+      "height": 940
+    },
+    "drawCalls": 109,
+    "triangles": 314098,
+    "renderMs": 34.17666668891907,
+    "frames": 126,
+    "reducedMotion": false
+  },
+  "muted": false,
+  "loaded": true,
+  "manualTime": true
+}

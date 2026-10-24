@@ -1,0 +1,196 @@
+{
+  "coordinateSystem": "x right, z depth, y up; one ground unit = one metre; analytic horizontal disks",
+  "version": 2,
+  "mode": "running",
+  "stage": 0,
+  "encounter": 1,
+  "time": 2.6499999999999955,
+  "totalTime": 2.6499999999999955,
+  "coreHealth": 3,
+  "core": {
+    "x": 5,
+    "z": 0
+  },
+  "budget": {
+    "conduit": 12.566370614359172,
+    "floor": 12.566370614359172
+  },
+  "stocks": {
+    "conduit": 0,
+    "floor": 0
+  },
+  "wards": [
+    {
+      "id": "A",
+      "x": 0,
+      "z": 0,
+      "r": 2,
+      "maxRadius": 2,
+      "cooldown": 0.9333333333333331,
+      "lastShotTime": 2.583333333333329,
+      "d": 4,
+      "cost": {
+        "conduit": 12.566370614359172,
+        "floor": 12.566370614359172
+      },
+      "maxAffordableRadius": 2,
+      "damage": 2,
+      "cooldownSeconds": 1
+    }
+  ],
+  "enemies": [
+    {
+      "x": -1.9449999999999945,
+      "z": 0,
+      "id": 1,
+      "hp": 6,
+      "maxHp": 8,
+      "speed": 0.7,
+      "kind": "walker",
+      "route": 0,
+      "progress": 0.21079545454545512,
+      "distance": 1.855000000000005,
+      "heading": 1.5707963267948966,
+      "slowUntil": 0,
+      "hitAt": 2.583333333333329
+    }
+  ],
+  "paths": [
+    [
+      {
+        "x": -3.8,
+        "z": 0
+      },
+      {
+        "x": 5,
+        "z": 0
+      }
+    ]
+  ],
+  "shots": [
+    {
+      "from": {
+        "x": 0,
+        "z": 0
+      },
+      "to": {
+        "x": -1.9916666666666616,
+        "z": 0
+      },
+      "ttl": 0.09333333333333335,
+      "type": "thorn",
+      "enemyId": 1
+    }
+  ],
+  "leaks": [],
+  "killed": 0,
+  "totalKilled": 0,
+  "pending": 2,
+  "scheduled": 3,
+  "selectedId": "A",
+  "draggingId": "A",
+  "limitReason": "",
+  "retries": 0,
+  "helpUses": 0,
+  "firstActionTime": 0,
+  "rewindContract": "Restart current encounter at t=0 with stage-start core, reset enemies/spawns/HP/cooldowns, retain current paid radii and recompute both stocks; preserve retry evidence.",
+  "renderer": {
+    "assets": {
+      "thorn": "loaded",
+      "beetle": "loaded"
+    },
+    "modelBounds": {
+      "beetle": {
+        "original": {
+          "min": [
+            -0.4893189072608948,
+            0.00091552734375,
+            -0.4175415486097336
+          ],
+          "max": [
+            0.4889526963233948,
+            0.3735504150390625,
+            0.41763313114643097
+          ]
+        },
+        "height": 0.34,
+        "grounded": true,
+        "triangles": 88482
+      },
+      "thorn": {
+        "original": {
+          "min": [
+            -0.3526001423597336,
+            0.0010986328125,
+            -0.3552551567554474
+          ],
+          "max": [
+            0.35708625614643097,
+            0.980377197265625,
+            0.3554687798023224
+          ]
+        },
+        "height": 1.08,
+        "grounded": true,
+        "triangles": 83669
+      }
+    },
+    "fixedCamera": true,
+    "camera": {
+      "position": [
+        14,
+        12,
+        2.4
+      ],
+      "target": [
+        0.55,
+        0.45,
+        0
+      ],
+      "projection": "orthographic",
+      "viewWidth": 5.8,
+      "viewHeight": 12.551794871794872
+    },
+    "grips": [
+      {
+        "id": "A",
+        "x": 105.62271701805734,
+        "y": 484.0359259258639,
+        "center": {
+          "x": 188.5034616631483,
+          "y": 419.5490056288729
+        },
+        "worldCenter": {
+          "x": 0,
+          "z": 0
+        },
+        "worldRadius": 2,
+        "maxRadius": 2,
+        "radius": 105.01324069999576,
+        "hitRadius": 22,
+        "world": {
+          "x": 1.3340219866277643,
+          "z": 1.4900957483308626
+        },
+        "dragTarget": {
+          "left": 83.62271701805734,
+          "top": 462.0359259258639,
+          "width": 44,
+          "height": 44
+        }
+      }
+    ],
+    "canvas": {
+      "width": 390,
+      "height": 844
+    },
+    "drawCalls": 72,
+    "triangles": 317979,
+    "renderMs": 46.584210546393145,
+    "frames": 38,
+    "reducedMotion": false
+  },
+  "muted": false,
+  "loaded": true,
+  "manualTime": true
+}

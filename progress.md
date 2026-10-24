@@ -48,3 +48,22 @@ btw,create it as a new public repo on my github (AceDZN). I think that I'll depl
 - All 47 tests pass: 19 v2 live-defense rules plus 28 legacy/storage checks. The opening plant now keeps both its position and chosen radius when the second approach appears; the new plant has its own affordable growth.
 - First real production action-client runs reached radius 2 and the first 6/8 HP hit, but exposed foliage batching errors, low ring contrast and a cropped core. These runs are recorded as failures, not visual acceptance. Source fixes are being frozen before the production pointer/touch/recovery run.
 - Kept the approved short proof-loop scope. Fresh human enjoyment and first-use observation remain required before extending the campaign.
+
+## Production interaction checkpoint
+- Built `4730bf2`: static output 8.7 MiB; JS 660.16 kB / 175.83 kB gzip, CSS 8.21 kB / 2.57 kB gzip. Only Vite's Three.js chunk-size advisory remains. Both GLBs and the font are local.
+- Reran the installed web-game action client on production 4184. Opened its actual screenshot: radius 2, stocks zero, first beetle 6/8 HP at 2.65 s, visible cosmetic bolt, full core and foliage. No errors file was produced. Evidence is copied under docs/rebuild/captures/.
+- Played the real-time production build in the owner's Chrome using native pointer input. Opening cleared three automatically. A late second-ring adjustment leaked; resizing during the freeze and one recovery action retained radii [2,2], restored core 3, then autonomous combat won all 13 with no pending/live enemies. No injected victory or manual time in that run.
+- Short native desktop measurement during two live beetles: 60 rAF intervals, median 8.3 ms / p95 9.5 ms; renderer CPU mean 0.88 ms, 121 draw calls / 492,778 triangles. This is one observed sample, not a mobile or universal frame-rate claim.
+- Independent supplemental QA is verifying the same frozen build, including real touch events. One foreground cypress briefly occludes the second entrance; a precise peripheral move is queued after the active run, before final captures.
+
+## Final visual and input corrections
+- Moved one peripheral cypress from x=-4.7 to x=-6.35 so the second entrance is visible. Rebuilt and reran the installed action client; actual screenshot inspected and no console errors recorded.
+- Corrected rounded radius/cost readouts to use ≈ where the displayed coefficient is approximate. For example r=1.25 has A≈1.563π m², while r=2 keeps A=4π m². Material numbers and units now stay together on narrow viewports.
+- Final static build: JS 660.28 kB / 175.91 kB gzip, CSS 8.22 kB / 2.59 kB gzip. All runtime model/font files remain local. The Three.js chunk-size advisory is the only build warning.
+- Independent isolated final portrait touch check passes: real touch start/move/end grows to radius 2, first hit 6/8 at 2.65 s, release ends drag and pause tap works. Headless mobile readiness required timer-based diagnostic polling plus the normal zero-time draw hook; no state injection. Full final functional run is being recorded separately.
+
+## Final acceptance of the implemented prototype
+- Final independent full production run passed: desktop-and-touch, twelve captures, no console/page/external runtime request errors. Host-timer asset readiness, a normal zero-time draw and a fresh temporary mobile browser avoid headless frame scheduling stalls. Optional software-frame timing is bounded and not presented as device performance.
+- Copied representative opening, first hit, second approach, leak/recovery, victory and portrait-touch captures with JSON state and the aggregate report into docs/rebuild/captures/. All representative images were opened and inspected.
+- Source and static build are ready for the owner's next human first-minute playtest. Preview remains running at http://localhost:4184/. Public main checkpoints are pushed; no deployment was made and no new model generation was used.
+- Remaining content gate: observe a fresh player's first gesture, explanation of a hit/leak, one-action recovery and wish for another skirmish. The funded static [2,2] layout wins this prototype; scarcity and a longer campaign are deferred until that observation.

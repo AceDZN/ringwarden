@@ -45,7 +45,7 @@ export function createLiveScene(canvas:HTMLCanvasElement,onSelect:(id:string)=>v
  for(let i=0;i<36;i++){const x=-6.05+i*.35;for(const side of [-1,1]){const z=side*(4.03+jitter(i)*.18);leavesAt(x,z,.8+jitter(i+1)*.55,i,0);if(i%2===0)leavesAt(x,z,.65,i,-.65-jitter(i)*.6);}}
  for(let i=0;i<20;i++)for(const x of [-6.1,6.65])leavesAt(x,-3.8+i*.4,.95+jitter(i)*.3,i);
  function cypress(x:number,z:number,height:number,seed:number){mesh(new THREE.CylinderGeometry(.07,.11,height*.7,6),mats.fern,foliage,x,.3,z);for(let i=0;i<9;i++){const t=i/8,a=i*2.4+seed;const f=mesh(sphere,i%3?mats.fern:mats.leaf,foliage,x+Math.cos(a)*.12,.2+t*height,z+Math.sin(a)*.12);f.scale.set((.31*(1-t)+.09),height*.22,(.29*(1-t)+.08));}}
- for(const [x,z,h]of [[-5.8,-4.5,2.6],[-3.3,-4.5,3],[0,-4.5,2.8],[2.8,-4.5,3.1],[5.8,-4.5,2.5],[-6.6,1,2.9],[-6.6,3.6,2.7],[6.9,3.7,2.7],[-4.7,4.6,2.5],[3.9,4.6,2.8]])cypress(x,z,h,x+z);
+ for(const [x,z,h]of [[-5.8,-4.5,2.6],[-3.3,-4.5,3],[0,-4.5,2.8],[2.8,-4.5,3.1],[5.8,-4.5,2.5],[-6.6,1,2.9],[-6.6,3.6,2.7],[6.9,3.7,2.7],[-6.35,4.6,2.5],[3.9,4.6,2.8]])cypress(x,z,h,x+z);
  for(const [x,z,h]of [[-5.3,-2.4,1.7],[-5.6,2.8,1.9],[5.9,-2.8,1.7],[5.8,2.9,1.65]]){cypress(x,z,h,x+z);leavesAt(x,z,1.35,3);leavesAt(x+.3,z+.25,1.1,4);}
  // Curved limestone urns and low rails break the edge without hiding the encounter.
  for(const x of [-5.7,-2.8,.3,3.4,6.3])for(const z of [-4.28,4.28]){mesh(new THREE.CylinderGeometry(.18,.23,.48,8),mats.stone,staticGroup,x,.12,z);mesh(new THREE.SphereGeometry(.22,8,6),mats.stone,staticGroup,x,.42,z);leavesAt(x,z,.9,Math.abs(x*3),.45);}

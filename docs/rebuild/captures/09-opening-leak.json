@@ -1,0 +1,205 @@
+{
+  "coordinateSystem": "x right, z depth, y up; one ground unit = one metre; analytic horizontal disks",
+  "version": 2,
+  "mode": "leak",
+  "stage": 0,
+  "encounter": 1,
+  "time": 12.583333333333538,
+  "totalTime": 12.583333333333538,
+  "coreHealth": 2,
+  "core": {
+    "x": 5,
+    "z": 0
+  },
+  "budget": {
+    "conduit": 12.566370614359172,
+    "floor": 12.566370614359172
+  },
+  "stocks": {
+    "conduit": 6.283185307179586,
+    "floor": 9.42477796076938
+  },
+  "wards": [
+    {
+      "id": "A",
+      "x": 0,
+      "z": 0,
+      "r": 1,
+      "maxRadius": 2,
+      "cooldown": 0,
+      "lastShotTime": 10.983333333333459,
+      "d": 2,
+      "cost": {
+        "conduit": 6.283185307179586,
+        "floor": 3.141592653589793
+      },
+      "maxAffordableRadius": 2,
+      "damage": 2,
+      "cooldownSeconds": 1
+    }
+  ],
+  "enemies": [
+    {
+      "x": 1.5200000000000191,
+      "z": 0,
+      "id": 2,
+      "hp": 2,
+      "maxHp": 8,
+      "speed": 0.7,
+      "kind": "walker",
+      "route": 0,
+      "progress": 0.6045454545454566,
+      "distance": 5.320000000000019,
+      "heading": 1.5707963267948966,
+      "slowUntil": 0,
+      "hitAt": 10.983333333333459
+    },
+    {
+      "x": -1.9799999999999949,
+      "z": 0,
+      "id": 3,
+      "hp": 8,
+      "maxHp": 8,
+      "speed": 0.7,
+      "kind": "walker",
+      "route": 0,
+      "progress": 0.20681818181818237,
+      "distance": 1.820000000000005,
+      "heading": 1.5707963267948966,
+      "slowUntil": 0,
+      "hitAt": -100
+    }
+  ],
+  "paths": [
+    [
+      {
+        "x": -3.8,
+        "z": 0
+      },
+      {
+        "x": 5,
+        "z": 0
+      }
+    ]
+  ],
+  "shots": [],
+  "leaks": [
+    {
+      "x": 5,
+      "z": 0,
+      "hp": 2,
+      "route": 0,
+      "id": 1
+    }
+  ],
+  "killed": 0,
+  "totalKilled": 0,
+  "pending": 0,
+  "scheduled": 3,
+  "selectedId": "A",
+  "draggingId": null,
+  "limitReason": "",
+  "retries": 0,
+  "helpUses": 0,
+  "firstActionTime": null,
+  "rewindContract": "Restart current encounter at t=0 with stage-start core, reset enemies/spawns/HP/cooldowns, retain current paid radii and recompute both stocks; preserve retry evidence.",
+  "renderer": {
+    "assets": {
+      "thorn": "loaded",
+      "beetle": "loaded"
+    },
+    "modelBounds": {
+      "beetle": {
+        "original": {
+          "min": [
+            -0.4893189072608948,
+            0.00091552734375,
+            -0.4175415486097336
+          ],
+          "max": [
+            0.4889526963233948,
+            0.3735504150390625,
+            0.41763313114643097
+          ]
+        },
+        "height": 0.34,
+        "grounded": true,
+        "triangles": 88482
+      },
+      "thorn": {
+        "original": {
+          "min": [
+            -0.3526001423597336,
+            0.0010986328125,
+            -0.3552551567554474
+          ],
+          "max": [
+            0.35708625614643097,
+            0.980377197265625,
+            0.3554687798023224
+          ]
+        },
+        "height": 1.08,
+        "grounded": true,
+        "triangles": 83669
+      }
+    },
+    "fixedCamera": true,
+    "camera": {
+      "position": [
+        -2.5,
+        11.6,
+        14.6
+      ],
+      "target": [
+        0.55,
+        0.45,
+        0
+      ],
+      "projection": "orthographic",
+      "viewWidth": 11,
+      "viewHeight": 6.184210526315789
+    },
+    "grips": [
+      {
+        "id": "A",
+        "x": 881.3542106862085,
+        "y": 572.874571414019,
+        "center": {
+          "x": 754.1665753242139,
+          "y": 530.1501970530994
+        },
+        "worldCenter": {
+          "x": 0,
+          "z": 0
+        },
+        "worldRadius": 1,
+        "maxRadius": 2,
+        "radius": 134.17178076446513,
+        "hitRadius": 22,
+        "world": {
+          "x": 0.7071067811865476,
+          "z": 0.7071067811865475
+        },
+        "dragTarget": {
+          "left": 859.3542106862085,
+          "top": 550.874571414019,
+          "width": 44,
+          "height": 44
+        }
+      }
+    ],
+    "canvas": {
+      "width": 1672,
+      "height": 940
+    },
+    "drawCalls": 96,
+    "triangles": 496429,
+    "renderMs": 262.98461532592773,
+    "frames": 13,
+    "reducedMotion": false
+  },
+  "muted": false,
+  "loaded": true,
+  "manualTime": true
+}

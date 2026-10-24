@@ -7,6 +7,7 @@ import { createSound } from './sound';
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const num = (v: number, digits = 2) => Math.abs(v) < 1e-7 ? '0' : Number(v.toFixed(digits)).toString();
 const ltr = (s: string) => `<bdi dir="ltr">${s}</bdi>`;
+const measure = (label: string, value: number, digits: number, unit: string) => `${label} ${Math.abs(value - Number(num(value, digits))) < 1e-10 ? '=' : '≈'} ${num(value, digits)} ${unit}`;
 const game = createLiveGame();
 const sound = createSound();
 let muted = readLocal().muted;
@@ -87,8 +88,8 @@ function refresh() {
   $('drag-readout').hidden = !showCost || !ward;
   if (showCost && ward) {
     const c = liveCost(ward.r);
-    $('radius-readout').textContent = `r = ${num(ward.r)} m`;
-    $('cost-readout').innerHTML = `${ltr(`C = ${num(2 * ward.r, 3)}π m`)} · ${ltr(`A = ${num(ward.r * ward.r, 3)}π m²`)}`;
+    $('radius-readout').textContent = measure('r', ward.r, 2, 'm');
+    $('cost-readout').innerHTML = `${ltr(measure('C', 2 * ward.r, 3, 'π m').replace(' π', 'π'))} · ${ltr(measure('A', ward.r * ward.r, 3, 'π m²').replace(' π', 'π'))}`;
     $('cost-readout').title = `C ≈ ${num(c.conduit)} m; A ≈ ${num(c.floor)} m²`;
     $('limit-readout').textContent = game.limitReason;
     const grip = scene?.getDiagnostics().grips?.find((v: { id: string }) => v.id === ward.id);

@@ -28,4 +28,4 @@ Generated HP pip segmentation and projected circle proportions remain imperfect.
 
 Dense horticulture is art direction. The browser must prioritize readable attacks, useful controls and responsive frames; the existing GLBs are reusable but do not already match every sculptural detail. The player’s next action, response to a hit, understanding of a leak and wish for another skirmish require real observation. Static images do not establish gameplay quality.
 
-See [the rebuild plan](../PLAN.md). The owner approved this direction with “ok. proceed”. The short two-approach prototype is now being implemented and verified; the generated references remain separate from actual gameplay captures.
+See [the rebuild plan](../PLAN.md). The owner approved this direction with “ok. proceed”. The short two-approach prototype is implemented; actual browser captures and comparison are in [the visual review](../VISUAL_REVIEW.md). The generated references remain separate from gameplay evidence.

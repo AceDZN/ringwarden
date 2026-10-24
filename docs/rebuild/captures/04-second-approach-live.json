@@ -1,0 +1,259 @@
+{
+  "coordinateSystem": "x right, z depth, y up; one ground unit = one metre; analytic horizontal disks",
+  "version": 2,
+  "mode": "running",
+  "stage": 1,
+  "encounter": 2,
+  "time": 7.1666666666666465,
+  "totalTime": 24.94999999999964,
+  "coreHealth": 3,
+  "core": {
+    "x": 5,
+    "z": 0
+  },
+  "budget": {
+    "conduit": 25.132741228718345,
+    "floor": 25.132741228718345
+  },
+  "stocks": {
+    "conduit": 4.712388980384688,
+    "floor": 7.65763209312512
+  },
+  "wards": [
+    {
+      "id": "A",
+      "x": 0,
+      "z": 0,
+      "r": 2,
+      "maxRadius": 2,
+      "cooldown": 0,
+      "lastShotTime": 6.133333333333317,
+      "d": 4,
+      "cost": {
+        "conduit": 12.566370614359172,
+        "floor": 12.566370614359172
+      },
+      "maxAffordableRadius": 2,
+      "damage": 2,
+      "cooldownSeconds": 1
+    },
+    {
+      "id": "B",
+      "x": 0,
+      "z": 2.2,
+      "r": 1.25,
+      "maxRadius": 2,
+      "cooldown": 0.583333333333332,
+      "lastShotTime": 6.749999999999981,
+      "d": 2.5,
+      "cost": {
+        "conduit": 7.853981633974483,
+        "floor": 4.908738521234052
+      },
+      "maxAffordableRadius": 2,
+      "damage": 2,
+      "cooldownSeconds": 1
+    }
+  ],
+  "enemies": [
+    {
+      "x": -0.9133333333333447,
+      "z": 2.2,
+      "id": 5,
+      "hp": 6,
+      "maxHp": 8,
+      "speed": 0.8,
+      "kind": "walker",
+      "route": 1,
+      "progress": 0.3444984831575629,
+      "distance": 3.5866666666666553,
+      "heading": 1.5707963267948966,
+      "slowUntil": 0,
+      "hitAt": 6.749999999999981
+    },
+    {
+      "x": -3.073333333333332,
+      "z": 0,
+      "id": 6,
+      "hp": 8,
+      "maxHp": 8,
+      "speed": 0.8,
+      "kind": "walker",
+      "route": 0,
+      "progress": 0.15017543859649138,
+      "distance": 1.426666666666668,
+      "heading": 1.5707963267948966,
+      "slowUntil": 0,
+      "hitAt": -100
+    }
+  ],
+  "paths": [
+    [
+      {
+        "x": -4.5,
+        "z": 0
+      },
+      {
+        "x": 2.8,
+        "z": 0
+      },
+      {
+        "x": 5,
+        "z": 0
+      }
+    ],
+    [
+      {
+        "x": -4.5,
+        "z": 2.2
+      },
+      {
+        "x": 2.8,
+        "z": 2.2
+      },
+      {
+        "x": 5,
+        "z": 0
+      }
+    ]
+  ],
+  "shots": [],
+  "leaks": [],
+  "killed": 1,
+  "totalKilled": 4,
+  "pending": 7,
+  "scheduled": 10,
+  "selectedId": "B",
+  "draggingId": null,
+  "limitReason": "",
+  "retries": 0,
+  "helpUses": 1,
+  "firstActionTime": 0,
+  "rewindContract": "Restart current encounter at t=0 with stage-start core, reset enemies/spawns/HP/cooldowns, retain current paid radii and recompute both stocks; preserve retry evidence.",
+  "renderer": {
+    "assets": {
+      "thorn": "loaded",
+      "beetle": "loaded"
+    },
+    "modelBounds": {
+      "thorn": {
+        "original": {
+          "min": [
+            -0.3526001423597336,
+            0.0010986328125,
+            -0.3552551567554474
+          ],
+          "max": [
+            0.35708625614643097,
+            0.980377197265625,
+            0.3554687798023224
+          ]
+        },
+        "height": 1.08,
+        "grounded": true,
+        "triangles": 83669
+      },
+      "beetle": {
+        "original": {
+          "min": [
+            -0.4893189072608948,
+            0.00091552734375,
+            -0.4175415486097336
+          ],
+          "max": [
+            0.4889526963233948,
+            0.3735504150390625,
+            0.41763313114643097
+          ]
+        },
+        "height": 0.34,
+        "grounded": true,
+        "triangles": 88482
+      }
+    },
+    "fixedCamera": true,
+    "camera": {
+      "position": [
+        -2.5,
+        11.6,
+        15.5
+      ],
+      "target": [
+        0.55,
+        0.45,
+        0.9
+      ],
+      "projection": "orthographic",
+      "viewWidth": 13,
+      "viewHeight": 7.308612440191388
+    },
+    "grips": [
+      {
+        "id": "A",
+        "x": 883.9373703832707,
+        "y": 318.13555382472504,
+        "center": {
+          "x": 743.0858639745421,
+          "y": 453.0533907862242
+        },
+        "worldCenter": {
+          "x": 0,
+          "z": 0
+        },
+        "worldRadius": 2,
+        "maxRadius": 2,
+        "radius": 195.04350691058082,
+        "hitRadius": 22,
+        "world": {
+          "x": 1.4142135623730951,
+          "z": -1.414213562373095
+        },
+        "dragTarget": {
+          "left": 861.9373703832707,
+          "top": 296.13555382472504,
+          "width": 44,
+          "height": 44
+        }
+      },
+      {
+        "id": "B",
+        "x": 960.7757834317048,
+        "y": 623.245585518615,
+        "center": {
+          "x": 800.9470103996764,
+          "y": 618.8916636237446
+        },
+        "worldCenter": {
+          "x": 0,
+          "z": 2.2
+        },
+        "worldRadius": 1.25,
+        "maxRadius": 2,
+        "radius": 159.88806498544622,
+        "hitRadius": 22,
+        "world": {
+          "x": 1.1888206453689418,
+          "z": 2.5862712429686843
+        },
+        "dragTarget": {
+          "left": 938.7757834317048,
+          "top": 601.245585518615,
+          "width": 44,
+          "height": 44
+        }
+      }
+    ],
+    "canvas": {
+      "width": 1672,
+      "height": 940
+    },
+    "drawCalls": 124,
+    "triangles": 492970,
+    "renderMs": 0.7450000286102295,
+    "frames": 84,
+    "reducedMotion": false
+  },
+  "muted": false,
+  "loaded": true,
+  "manualTime": true
+}

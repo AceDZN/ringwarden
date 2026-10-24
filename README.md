@@ -45,9 +45,12 @@ Conduit and floor stocks are independent. Live resizing recomputes exact paid co
 - [Approved rebuild plan](docs/rebuild/PLAN.md), [identity](GAME_IDENTITY.md).
 - [Four generated gameplay targets and exact prompts](docs/rebuild/mockups/README.md). They are design references, not captured gameplay; actual browser comparisons belong in the rebuild review.
 - [Asset provenance](ASSETS.md): two game-specific models made through the owner's Chrome Tripo UI, displayed 45 credits each, task IDs, hashes and processing. No new model generation was used for v2.
+- [Actual browser first hit](docs/rebuild/captures/action-client-first-hit.png) and [reference comparison](docs/rebuild/VISUAL_REVIEW.md).
 - [Rebuild playtest record](docs/rebuild/PLAYTEST.md). The root `PLAYTEST.md` and old `src/game.ts` describe retired v1 evidence.
 
 `npm test` includes 19 v2 rule tests plus 28 legacy/storage checks. Passing legacy tests is not current UX evidence. The v2 browser action-client and supplemental tests verify real input→radius→stock→hit→leak/retry→win flows without injecting victory. They cannot establish fun or intuitive human use.
+
+With the production preview running, `node tests/live-browser.mjs http://localhost:4184` repeats the pointer/touch flow. It uses Playwright Chromium, falling back to installed Chrome if that matching browser is absent. Browser artifacts stay in ignored `output/`.
 
 `render_game_to_text()` reports visible state, exact quantities, renderer/model diagnostics and projected grip positions. `advanceTime(ms)` enters deterministic manual stepping and respects pause; `?test` begins in that mode. It advances normal simulation. Optional local storage retains anonymous action traces and mute preference; malformed data cannot restore or modify a game.
 

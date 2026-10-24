@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-24",
+  "url": "http://localhost:4184/",
+  "browser": "Owner Chrome through cua_repl, lead-owned tab 512278038",
+  "viewport": [
+    1728,
+    780
+  ],
+  "build": "4730bf2 (index-DpHMrPQA.js)",
+  "input": "Native pointer drag, no state injection, real-time simulation",
+  "observations": [
+    {
+      "step": "opening growth",
+      "radius": 2,
+      "remainingConduit": 0,
+      "remainingFloor": 0
+    },
+    {
+      "step": "automatic second approach",
+      "openingKills": 3,
+      "core": 3,
+      "firstRadiusRetained": 2
+    },
+    {
+      "step": "late second growth then recovery",
+      "mode": "running",
+      "stage": 1,
+      "core": 3,
+      "radii": [
+        2,
+        2
+      ],
+      "retries": 1,
+      "manualTime": false,
+      "time": 0.2
+    },
+    {
+      "step": "autonomous real-time victory after retained-plan retry",
+      "mode": "won",
+      "stage": 1,
+      "time": 30.41666666666622,
+      "core": 3,
+      "totalKilled": 13,
+      "pending": 0,
+      "enemies": 0,
+      "retries": 1,
+      "manualTime": false
+    }
+  ],
+  "frameSample": {
+    "context": "second encounter, real-time, two live beetles, 5 already killed",
+    "samples": 60,
+    "medianIntervalMs": 8.3,
+    "p95IntervalMs": 9.5,
+    "rendererCpuMeanMs": 0.88,
+    "drawCalls": 121,
+    "triangles": 492778,
+    "note": "Short observed sample on this desktop; not a mobile benchmark or universal FPS claim."
+  }
+}
